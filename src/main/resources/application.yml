@@ -29,3 +29,6 @@ wx:
   applet:
     appid: yourappid
     appsecret: yourappsecret
+
+game:
+  prefix: wx_culture

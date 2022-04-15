@@ -18,7 +18,7 @@ public class JwtConfig {
     /**
      * JWT 自定义密钥 我这里写死的
      */
-    private static final String SECRET_KEY = "5371f568a45e5ab1f442c38e0932aef24447139b";
+    private static final String SECRET_KEY = "5371f568a45e5ab1f442c38e0932aef24447139c";
 
     /**
      * JWT 过期时间值 这里写死为和小程序时间一致 7200 秒，也就是两个小时
