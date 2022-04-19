@@ -1,6 +1,9 @@
 package com.henan.culture.domain.service.impl;
 
-import com.henan.culture.controller.dto.TokenDTO;
+import com.henan.culture.cache.AccountCacheManager;
+import com.henan.culture.controller.dto.PlayerDTO;
+import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.domain.service.IPlayerService;
 import com.henan.culture.infrastructure.config.jwt.JwtConfig;
 import com.henan.culture.domain.service.WxAppletService;
 import com.henan.culture.domain.entity.WxAccount;
@@ -41,6 +44,8 @@ public class WxAccountService implements WxAppletService {
 
     @Resource
     private JwtConfig jwtConfig;
+    @Resource
+    private IPlayerService playerService;
 
     /**
      * 微信的 code2session 接口 获取微信用户信息
@@ -66,7 +71,7 @@ public class WxAccountService implements WxAppletService {
      * @return 返回后端 自定义登陆态 token  基于JWT实现
      */
     @Override
-    public TokenDTO wxUserLogin(String code) {
+    public PlayerDTO wxUserLogin(String code) {
         //1 . code2session返回JSON数据
         String resultJson = code2Session(code);
         //2 . 解析数据
@@ -75,7 +80,7 @@ public class WxAccountService implements WxAppletService {
             throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
         else {
             //3 . 先从本地数据库中查找用户是否存在
-            WxAccount wxAccount = wxAccountRepository.findByWxOpenid(response.getOpenid());
+            WxAccount wxAccount = AccountCacheManager.getInstance().getAccount(response.getOpenid());
             if (wxAccount == null) {
                 wxAccount = new WxAccount();
                 wxAccount.setWxOpenid(response.getOpenid());    //不存在就新建用户
@@ -83,9 +88,14 @@ public class WxAccountService implements WxAppletService {
             //4 . 更新sessionKey和 登陆时间
             wxAccount.setSessionKey(response.getSession_key());
             wxAccountRepository.save(wxAccount);
+            // 检查玩家
+            Player player = playerService.checkAccountPlayer(wxAccount);
+            PlayerDTO dto = player.buildDTO();
             //5 . JWT 返回自定义登陆态 Token
             String token = jwtConfig.createTokenByWxAccount(wxAccount);
-            return new TokenDTO(token);
+            return dto.setToken(token);
         }
     }
+
+
 }

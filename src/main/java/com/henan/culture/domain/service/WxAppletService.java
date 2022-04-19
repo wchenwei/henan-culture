@@ -1,5 +1,6 @@
 package com.henan.culture.domain.service;
 
+import com.henan.culture.controller.dto.PlayerDTO;
 import com.henan.culture.controller.dto.TokenDTO;
 
 /**
@@ -19,7 +20,7 @@ public interface WxAppletService {
      * @param code 小程序端 调用 wx.login 获取到的code,用于调用 微信code2session接口
      * @return Token 返回后端 自定义登陆态 token  基于JWT实现
      */
-    public TokenDTO wxUserLogin(String code);
+    public PlayerDTO wxUserLogin(String code);
 
 
 }

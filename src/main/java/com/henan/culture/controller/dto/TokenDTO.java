@@ -1,5 +1,6 @@
 package com.henan.culture.controller.dto;
 
+import com.henan.culture.domain.entity.player.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,4 +11,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class TokenDTO {
     private String token;
+    private Player player;
 }
