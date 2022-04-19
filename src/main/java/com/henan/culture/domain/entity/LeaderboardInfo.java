@@ -18,10 +18,10 @@ public class LeaderboardInfo {
         this.score = score;
     }
 
-    public LeaderboardInfo(ZSetOperations.TypedTuple<Integer> data, int rank) {
+    public LeaderboardInfo(ZSetOperations.TypedTuple<String> data, int rank) {
         try {
             this.score = data.getScore();
-            this.id = data.getValue();
+            this.id = Integer.parseInt(data.getValue());
             this.rank = rank;
         } catch (Exception e) {
             e.printStackTrace();

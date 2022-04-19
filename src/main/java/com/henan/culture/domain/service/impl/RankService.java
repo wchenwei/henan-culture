@@ -6,6 +6,7 @@ import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.service.IRankService;
 import com.henan.culture.enums.RankType;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
@@ -24,32 +25,32 @@ public class RankService implements IRankService {
     protected static final int pageSize = 10;//每页的条数
 
     @Resource
-    private RedisTemplate<String, Integer> redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void updatePlayerRankForAdd(Player player, RankType rankType, long add) {
-        redisTemplate.opsForZSet().incrementScore(rankType.getRankType(), player.getId(), add);
+        stringRedisTemplate.opsForZSet().incrementScore(rankType.getRankType(), String.valueOf(player.getId()), add);
     }
 
     @Override
     public void updatePlayerRankForAdd(Player player, String rankName, long add) {
-        redisTemplate.opsForZSet().incrementScore(rankName, player.getId(), add);
+        stringRedisTemplate.opsForZSet().incrementScore(rankName, String.valueOf(player.getId()), add);
     }
 
     @Override
     public void updatePlayerRank(Player player, String rankName, long value) {
-        redisTemplate.opsForZSet().add(rankName, player.getId(), value);
+        stringRedisTemplate.opsForZSet().add(rankName, String.valueOf(player.getId()), value);
     }
 
     @Override
     public void updatePlayerRank(Player player, RankType rankType, long value) {
-        redisTemplate.opsForZSet().add(rankType.getRankType(), player.getId(), value);
+        stringRedisTemplate.opsForZSet().add(rankType.getRankType(), String.valueOf(player.getId()), value);
     }
 
 
     @Override
     public long getPlayerRank(Player player, RankType rankType) {
-        return redisTemplate.opsForZSet().reverseRank(rankType.getRankType(), player.getId());
+        return stringRedisTemplate.opsForZSet().reverseRank(rankType.getRankType(), player.getId());
     }
 
     @Override
@@ -57,8 +58,8 @@ public class RankService implements IRankService {
         int start = pageSize * (pageNo - 1);
         int end = pageSize * pageNo - 1;
         List<LeaderboardInfo> infos = Lists.newArrayList();
-        Set<ZSetOperations.TypedTuple<Integer>> values = redisTemplate.opsForZSet().reverseRangeWithScores(rankType.getRankType(), start, end);
-        for (ZSetOperations.TypedTuple<Integer> val : values) {
+        Set<ZSetOperations.TypedTuple<String>> values = stringRedisTemplate.opsForZSet().reverseRangeWithScores(rankType.getRankType(), start, end);
+        for (ZSetOperations.TypedTuple<String> val : values) {
             infos.add(new LeaderboardInfo(val, start));
             start++;
         }
@@ -67,7 +68,7 @@ public class RankService implements IRankService {
 
     @Override
     public Long getPlayerScore(Player player, RankType rankType) {
-        Double score  = redisTemplate.opsForZSet().score(rankType.getRankType(), player.getId());
+        Double score  = stringRedisTemplate.opsForZSet().score(rankType.getRankType(), player.getId());
         if (score == null){
             return 0L;
         }

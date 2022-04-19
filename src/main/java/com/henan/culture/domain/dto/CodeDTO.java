@@ -1,4 +1,4 @@
-package com.henan.culture.controller.dto;
+package com.henan.culture.domain.dto;
 
 import lombok.Data;
 

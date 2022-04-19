@@ -1,7 +1,7 @@
 package com.henan.culture.domain.service;
 
-import com.henan.culture.controller.dto.PlayerDTO;
-import com.henan.culture.controller.dto.TokenDTO;
+import com.henan.culture.domain.dto.PlayerDTO;
+import com.henan.culture.domain.dto.TokenDTO;
 
 /**
  * 微信小程序自定义登陆 服务说明

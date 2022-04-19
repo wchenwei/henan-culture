@@ -1,6 +1,6 @@
 package com.henan.culture.domain.entity.player;
 
-import com.henan.culture.controller.dto.PlayerDTO;
+import com.henan.culture.domain.dto.PlayerDTO;
 import com.henan.culture.infrastructure.springredis.base.BaseEntityMapper;
 import com.henan.culture.infrastructure.springredis.common.MapperType;
 import com.henan.culture.infrastructure.springredis.common.RedisMapperType;

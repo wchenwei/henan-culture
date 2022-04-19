@@ -1,9 +1,8 @@
 package com.henan.culture.controller.login;
 
 import com.henan.culture.controller.base.BaseController;
-import com.henan.culture.controller.dto.CodeDTO;
+import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.service.WxAppletService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
