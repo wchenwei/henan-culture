@@ -17,10 +17,10 @@ public class Player extends BaseEntityMapper<Integer> {
     private String dayMark;// 每日重置标志
     private String name;// 名称
     private int lifeCount;// 生命值
-    private int maxScore; // 最高积分
-    private PlayerBag playerBag; // 背包
-    private PlayerChapter playerChapter;// 章节
-    private PlayerPoked playerPoked; // 图鉴
+    private PlayerBag playerBag = new PlayerBag(); // 背包
+    private PlayerChapter playerChapter = new PlayerChapter();// 章节
+    private PlayerPoked playerPoked = new PlayerPoked(); // 图鉴
+    private PlayerScore playerScore = new PlayerScore();//积分
 
 
 

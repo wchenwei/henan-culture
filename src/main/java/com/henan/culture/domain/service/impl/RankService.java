@@ -5,14 +5,12 @@ import com.henan.culture.domain.entity.LeaderboardInfo;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.service.IRankService;
 import com.henan.culture.enums.RankType;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 /**
