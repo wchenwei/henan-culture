@@ -1,3 +1,30 @@
+## 请自行修改下面信息
+
 spring:
-  profiles:
-   active: dev
+  application:
+    name: henan-culture
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+  #  datasource本地配置
+  datasource:
+    url: jdbc:mysql://192.168.1.217:3306/renren_security_qgjs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 81830975
+    driver-class-name: com.mysql.jdbc.Driver
+
+  #  redis本地配置 请自行配置
+  redis:
+    database: 10
+    host: 192.168.1.250
+    port: 6379
+
+#  微信小程序配置 appid /appsecret
+wx:
+  applet:
+    appid: wx20fbe306251b8f1c
+    appsecret: 48cf07b25c045b71690cf5dd1bb8c7a3
+
+game:
+  prefix: wx_culture_dev

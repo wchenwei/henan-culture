@@ -1,6 +1,7 @@
 package com.henan.culture.listener;
 
 import com.henan.culture.cache.MailCacheManager;
+import com.henan.culture.infrastructure.springredis.factory.MapperFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,6 +14,8 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         try {
             log.error("===============================服务器开始启动===============================");
+            //注册redisDB
+            MapperFactory.getFactory().registerDB();
             MailCacheManager.getInstance().init();
             log.error("加载邮件完成");
 

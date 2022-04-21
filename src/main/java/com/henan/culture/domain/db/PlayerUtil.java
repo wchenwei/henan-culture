@@ -10,7 +10,7 @@ import com.henan.culture.domain.entity.player.Player;
 public class PlayerUtil {
 
     public static Player getPlayer(int id){
-        return Player.queryOne(id, id, Player.class);
+        return Player.queryOne(0, id, Player.class);
     }
 
 }

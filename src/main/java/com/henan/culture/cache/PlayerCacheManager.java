@@ -47,7 +47,7 @@ public class PlayerCacheManager {
 
     public Player getPlayer(WxAccount account) {
         Player player = cache.getUnchecked(account.getId());
-        return player.getId() == DefaultValue.getId() ? null : player;
+        return player.getId().equals(DefaultValue.getId()) ? null : player;
     }
 
     public void removePlayerCache(int playerId) {

@@ -16,7 +16,7 @@ import java.util.Date;
 public class WxAccount {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String wxOpenid;
