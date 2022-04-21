@@ -2,6 +2,7 @@ package com.henan.culture.domain.service;
 
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.PlayerDTO;
+import com.henan.culture.domain.entity.player.Player;
 
 /**
  * @description:
@@ -9,5 +10,5 @@ import com.henan.culture.domain.dto.PlayerDTO;
  * @create: 2022-04-20 10:01
  **/
 public interface IAccountService {
-    PlayerDTO userLogin(CodeDTO dto);
+    Player userLogin(CodeDTO dto);
 }

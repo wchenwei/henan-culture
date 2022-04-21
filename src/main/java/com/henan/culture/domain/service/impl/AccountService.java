@@ -51,7 +51,7 @@ public class AccountService implements IAccountService {
     private IPlayerService playerService;
 
     @Override
-    public PlayerDTO userLogin(CodeDTO dto) {
+    public Player userLogin(CodeDTO dto) {
         //1 . code2session返回JSON数据
         String resultJson = code2Session(dto.getCode());
         //2 . 解析数据
@@ -70,9 +70,7 @@ public class AccountService implements IAccountService {
             wxAccount.setName(dto.getName());
             wxAccountRepository.save(wxAccount);
             // 检查玩家
-            Player player = playerService.checkAccountPlayer(wxAccount);
-            PlayerDTO playerDTO = player.buildDTO();
-            return playerDTO;
+            return playerService.checkAccountPlayer(wxAccount);
         }
     }
 

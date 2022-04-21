@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 public class BasePlayerDTO {
     private int id;
     private String name;
+    private String wxOpenId;
 
     public BasePlayerDTO(Player player){
         this.id = player.getId();
         this.name = player.getName();
+        this.wxOpenId = player.getWxOpenId();
     }
 
 }

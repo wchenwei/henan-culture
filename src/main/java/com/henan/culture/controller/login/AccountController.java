@@ -3,6 +3,7 @@ package com.henan.culture.controller.login;
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.PlayerDTO;
 import com.henan.culture.domain.dto.ResponseDTO;
+import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.service.IAccountService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,16 +28,20 @@ public class AccountController {
      * 微信小程序端用户登陆api
      * 返回给小程序端 自定义登陆态 token
      */
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public ResponseDTO wxAppletLoginApi(@RequestBody @Validated CodeDTO codeDTO) {
         try {
-            PlayerDTO playerDTO = accountService.userLogin(codeDTO);
-            return ResponseDTO.Suc()
-                    .addProperty("player", playerDTO);
+            Player player = accountService.userLogin(codeDTO);
+            return ResponseDTO.Suc(player);
         } catch (Exception e) {
             return ResponseDTO.Fail();
         }
-
     }
+
+    @RequestMapping("/test")
+    public ResponseDTO wxAppletLoginApi() {
+        return ResponseDTO.Suc();
+    }
+
 
 }

@@ -53,7 +53,6 @@ public class PlayerService implements IPlayerService {
      */
     private void doDayReset(Player player) {
         player.setLifeCount(Constants.lifeCount);
-        player.getPlayerScore().clear();
     }
 
 }

@@ -5,8 +5,8 @@ spring:
     name: henan-culture
   jpa:
     hibernate:
-      ddl-auto: create      # 请自行修改 请自行修改 请自行修改
-    open-in-view: false     # 关闭 OSIV
+      ddl-auto: create
+    open-in-view: false
 #  datasource本地配置
   datasource:
     url: jdbc:mysql://192.168.1.217:3306/renren_security_qgjs?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8

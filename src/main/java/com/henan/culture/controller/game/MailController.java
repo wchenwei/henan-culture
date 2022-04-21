@@ -1,8 +1,12 @@
 package com.henan.culture.controller.game;
 
+import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.PlayerDTO;
+import com.henan.culture.domain.entity.player.Player;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description:
@@ -11,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RequestMapping("/mail")
 @RestController
-public class MailController {
+public class MailController extends BaseController {
 
     @RequestMapping("/list")
-    public PlayerDTO list(){
+    public PlayerDTO list(HttpServletRequest request){
+        Player player = getLoginPlayer(request);
+
         return null;
     }
 
