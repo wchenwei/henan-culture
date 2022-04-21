@@ -1,5 +1,6 @@
 package com.henan.culture.listener;
 
+import com.henan.culture.cache.MailCacheManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -12,7 +13,8 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         try {
             log.error("===============================服务器开始启动===============================");
-
+            MailCacheManager.getInstance().init();
+            log.error("加载邮件完成");
 
             log.info("服务器启动成功");
         } catch (Exception e) {

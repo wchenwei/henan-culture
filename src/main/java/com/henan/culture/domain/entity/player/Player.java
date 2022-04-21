@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 @RedisMapperType(type = MapperType.HASH_JSON)
 public class Player extends BaseEntityMapper<Integer> {
+    private String wxOpenId;
     private String dayMark;// 每日重置标志
     private String name;// 名称
     private int lifeCount;// 生命值
@@ -21,10 +22,13 @@ public class Player extends BaseEntityMapper<Integer> {
     private PlayerChapter playerChapter = new PlayerChapter();// 章节
     private PlayerPoked playerPoked = new PlayerPoked(); // 图鉴
     private PlayerScore playerScore = new PlayerScore();//积分
+    private PlayerMail playerMail = new PlayerMail();//邮件
 
 
 
     public PlayerDTO buildDTO(){
         return new PlayerDTO(this);
     }
+
+
 }

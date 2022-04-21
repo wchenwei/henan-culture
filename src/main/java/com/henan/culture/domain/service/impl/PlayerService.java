@@ -1,6 +1,7 @@
 package com.henan.culture.domain.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.cache.PlayerCacheManager;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.entity.WxAccount;
@@ -25,8 +26,13 @@ public class PlayerService implements IPlayerService {
         if (player == null){
             player = new Player();
             player.setId(wxAccount.getId());
+            player.setWxOpenId(wxAccount.getWxOpenid());
             PlayerCacheManager.getInstance().addPlayerToCache(player);
         }
+        // 每次登录重新赋值
+        player.setName(wxAccount.getName());
+        // 加载邮件
+        MailCacheManager.getInstance().loadPlayerSysMail(player);
         // 每日重置
         checkDayReset(player);
         player.saveDB();
@@ -47,6 +53,7 @@ public class PlayerService implements IPlayerService {
      */
     private void doDayReset(Player player) {
         player.setLifeCount(Constants.lifeCount);
+        player.getPlayerScore().clear();
     }
 
 }

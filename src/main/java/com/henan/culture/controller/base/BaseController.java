@@ -1,10 +1,12 @@
 package com.henan.culture.controller.base;
 
+import com.henan.culture.cache.AccountCacheManager;
 import com.henan.culture.cache.PlayerCacheManager;
-import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.entity.WxAccount;
-import org.apache.shiro.SecurityUtils;
+import com.henan.culture.domain.entity.player.Player;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description:
@@ -13,14 +15,15 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 public class BaseController {
-    
-    public WxAccount getLoginAccount(){
-        WxAccount principal = (WxAccount) SecurityUtils.getSubject().getPrincipal();
-        return principal;
+
+
+    public WxAccount getLoginAccount(HttpServletRequest request){
+        String openId = request.getParameter("wxOpenId");
+        return AccountCacheManager.getInstance().getAccount(openId);
     }
 
-    public Player getLoginPlayer(){
-        WxAccount loginAccount = getLoginAccount();
+    public Player getLoginPlayer(HttpServletRequest request){
+        WxAccount loginAccount = getLoginAccount(request);
         if(loginAccount != null){
             return PlayerCacheManager.getInstance().getPlayer(loginAccount);
         }
