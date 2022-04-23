@@ -1,11 +1,13 @@
 ## 请自行修改下面信息
+server:
+  port: 8234
 
 spring:
   application:
     name: henan-culture
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
   #  datasource本地配置
   datasource:

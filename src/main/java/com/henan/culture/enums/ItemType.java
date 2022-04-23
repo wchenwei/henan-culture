@@ -8,10 +8,9 @@ import java.util.Arrays;
  * @create: 2022-04-19 10:46
  **/
 public enum ItemType {
-
-    Relive(1,"复活道具"),
-    HelpLine(2,"辅助线道具"),
-    Score(3,"得分加倍道具"),
+    Help(1,"辅助线道具"),
+    Score(2,"得分加倍道具"),
+    Relive(3,"复活道具"),
     ;
 
     ItemType(Integer type, String desc) {

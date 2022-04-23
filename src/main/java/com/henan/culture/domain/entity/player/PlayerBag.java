@@ -17,13 +17,16 @@ public class PlayerBag {
 
 
     public void addItem(ItemType itemType, long add){
-        itemMap.put(itemType.getType(), itemMap.getOrDefault(itemType.getType(),0l) + add);
+        itemMap.merge(itemType.getType(), add, Long::sum);
+    }
+
+    public void addItem(Map<ItemType, Long> addItemMap){
+        addItemMap.forEach((key, value)-> itemMap.merge(key.getType() ,value, Long::sum));
     }
 
     public void sendItem(ItemType itemType, long reduce){
         itemMap.put(itemType.getType(), itemMap.getOrDefault(itemType.getType(),0l) - reduce);
     }
-
 
     public boolean checkEnough(ItemType itemType, long reduce){
         return itemMap.getOrDefault(itemType.getType(), 0L) >= reduce;

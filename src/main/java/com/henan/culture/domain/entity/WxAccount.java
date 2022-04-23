@@ -11,7 +11,8 @@ import java.util.Date;
  * 实体 属性描述 这里只是简单示例，你可以自定义相关用户信息
  */
 @Entity
-@Table(name = "yy_account", indexes = {@Index(columnList = "name"),@Index(columnList = "wxOpenid")})
+@Table(name = "yy_account", indexes = {@Index(columnList = "name")
+        ,@Index(columnList = "wxOpenid", unique = true)})
 @Data
 public class WxAccount {
 

@@ -1,6 +1,7 @@
 package com.henan.culture.domain.service.impl;
 
 import com.henan.culture.cache.AccountCacheManager;
+import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.PlayerDTO;
 import com.henan.culture.domain.entity.WxAccount;
@@ -57,26 +58,45 @@ public class AccountService implements IAccountService {
         String resultJson = code2Session(dto.getCode());
         //2 . 解析数据
         Code2SessionResponse response = JSONUtil.toJavaObject(resultJson, Code2SessionResponse.class);
-        if (!response.getErrcode().equals("0"))
-            throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
-        return getPlayer(dto.getName(), response.getOpenid(), response.getSession_key());
-
+        if (!response.getErrcode().equals("0")){
+            return null;
+        }
+        WxAccount wxAccount = getWxAccount(response.getOpenid(), dto.getName());
+        if (wxAccount == null){
+            return null;
+        }
+        // 加载account和player
+        return accountLogin(wxAccount);
     }
 
-    public Player getPlayer(String name, String openId, String sessionKey) {
-        //3 . 先从本地数据库中查找用户是否存在
-        WxAccount wxAccount = AccountCacheManager.getInstance().getAccount(openId);
+    @Override
+    public Player accountLogin(WxAccount wxAccount) {
+        Player player = playerService.loadPlayer(wxAccount);
+        if (player == null){
+            return null;
+        }
+        // 每次登录重新赋值
+        player.setName(wxAccount.getName());
+        // 加载邮件
+        MailCacheManager.getInstance().loadPlayerSysMail(player);
+        // 每日重置
+        playerService.checkDayReset(player);
+        player.saveDB();
+        return player;
+    }
+
+    @Override
+    public WxAccount getWxAccount(String openId,String name) {
+        WxAccount wxAccount = wxAccountRepository.findByWxOpenid(openId);
         if (wxAccount == null) {
             wxAccount = new WxAccount();
             wxAccount.setWxOpenid(openId);    //不存在就新建用户
         }
-        wxAccount.setSessionKey(sessionKey);
+//        wxAccount.setSessionKey(sessionKey);
         wxAccount.setName(name);
         wxAccount.setLastTime(new Date());
         wxAccountRepository.save(wxAccount);
-        //4 . 更新sessionKey和 登陆时间
-        // 检查玩家
-        return playerService.checkAccountPlayer(wxAccount);
+        return wxAccount;
     }
 
 

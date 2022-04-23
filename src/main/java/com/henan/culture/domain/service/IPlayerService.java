@@ -5,7 +5,7 @@ import com.henan.culture.domain.entity.WxAccount;
 
 public interface IPlayerService {
 
-    Player checkAccountPlayer(WxAccount wxAccount);
+    Player loadPlayer(WxAccount wxAccount);
 
     void checkDayReset(Player player);
 }

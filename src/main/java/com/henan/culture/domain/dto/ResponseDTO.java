@@ -4,9 +4,7 @@ import com.google.common.collect.Maps;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.ResponseStatus;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import lombok.experimental.Accessors;
 
 import java.util.Map;
 
@@ -16,8 +14,10 @@ import java.util.Map;
  * @create: 2022-04-20 10:24
  **/
 @Data
+@Accessors(chain = true)
 public class ResponseDTO {
     private Integer code;
+    private String content;
     private Map<String, Object> data = Maps.newHashMap();
 
 
@@ -33,14 +33,16 @@ public class ResponseDTO {
         return buildDTO(ResponseStatus.OK);
     }
 
-    public static ResponseDTO Suc(Player player){
-        return buildDTO(ResponseStatus.OK).addProperty("player", player.buildDTO());
+    public static ResponseDTO Suc(BasePlayerDTO playerDTO){
+        return buildDTO(ResponseStatus.OK).addProperty("player", playerDTO);
     }
-
-
 
     public static ResponseDTO Fail(){
         return buildDTO(ResponseStatus.ERROR);
+    }
+
+    public static ResponseDTO Fail(String content){
+        return buildDTO(ResponseStatus.ERROR).setContent(content);
     }
 
     public ResponseDTO addProperty(String key, Object object){

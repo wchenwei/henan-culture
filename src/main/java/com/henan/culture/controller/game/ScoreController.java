@@ -33,7 +33,7 @@ public class ScoreController extends BaseController {
             rankService.updatePlayerRank(player, RankType.Score, score);
             player.saveDB();
         }
-        return ResponseDTO.Suc(player);
+        return ResponseDTO.Suc(player.buildBasePlayerDTO());
     }
 
     @RequestMapping("/rank")
@@ -42,7 +42,7 @@ public class ScoreController extends BaseController {
         Player player = getLoginPlayer(request);
         long playerRank = rankService.getPlayerRank(player, RankType.Score);
         List<LeaderboardInfo> groupRanks = rankService.getGroupRanks(RankType.Score, pageNo);
-        return ResponseDTO.Suc(player)
+        return ResponseDTO.Suc(player.buildBasePlayerDTO())
                 .addProperty("playerRank", playerRank)
                 .addProperty("ranks", groupRanks)
                 ;

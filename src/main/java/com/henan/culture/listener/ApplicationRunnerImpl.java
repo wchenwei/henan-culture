@@ -16,6 +16,7 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
             log.error("===============================服务器开始启动===============================");
             //注册redisDB
             MapperFactory.getFactory().registerDB();
+            //加载邮件
             MailCacheManager.getInstance().init();
             log.error("加载邮件完成");
 

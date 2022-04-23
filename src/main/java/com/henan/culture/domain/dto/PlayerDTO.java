@@ -26,5 +26,6 @@ public class PlayerDTO extends BasePlayerDTO {
         this.lifeCount = player.getLifeCount();
         this.itemMap = player.getPlayerBag().getItemMap();
         this.maxScore = player.getPlayerScore().getMaxScore();
+        this.itemMap = player.getPlayerBag().getItemMap();
     }
 }

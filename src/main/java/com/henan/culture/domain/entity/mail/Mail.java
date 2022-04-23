@@ -1,101 +1,46 @@
 package com.henan.culture.domain.entity.mail;
 
-import com.google.common.collect.Sets;
+import cn.hutool.core.util.StrUtil;
 import com.henan.culture.enums.MailSendType;
-import com.henan.culture.infrastructure.springredis.base.BaseEntityMapper;
-import com.henan.culture.infrastructure.springredis.common.MapperType;
-import com.henan.culture.infrastructure.springredis.common.RedisMapperType;
-import com.henan.culture.infrastructure.util.IdManager;
-import com.henan.culture.infrastructure.util.IdType;
-import lombok.NoArgsConstructor;
+import com.henan.culture.infrastructure.util.StringUtil;
+import lombok.Data;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
-@NoArgsConstructor
-@RedisMapperType(type = MapperType.STRING_HASH)
-public class Mail extends BaseEntityMapper<String> {
+@Entity
+@Table(name = "y_mail")
+@Data
+public class Mail {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String title; //标题
 	private String content; //内容
-	private transient int sendType; //发送类型MailSendType
+	private int sendType; //发送类型MailSendType
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@LastModifiedDate
 	private Date sendDate; //发送日期
-	private transient Set<Integer> receivers = Sets.newHashSet(); //收件人
-	private Map<Integer, Long> reward; // 奖励
-	private int mailId;//邮件id
+	private String receiver; //收件人
+	private String reward; // 奖励
+	@Transient
+	private List<Integer> receives;
+	private boolean oldMail; //未加载过的邮件
 
 	
-	public Mail(String id, int serverId, String title, String content, Map<Integer, Long> rewards, MailSendType sendType){
-		setId(id);
-		setServerId(serverId); 
+	public Mail(String title, String content, String reward, MailSendType sendType, String receiver){
 		this.title = title;
 		this.content = content;
 		this.sendDate = new Date(); 
-		this.reward = rewards; 
-		this.sendType = sendType.getType(); 
-	}
-	
-	public Mail(int serverId, String title, String content, Map<Integer, Long> rewards, MailSendType sendType){
-		setId(serverId+"_"+ IdManager.genId(IdType.Mail));
-		setServerId(serverId); 
-		this.title = title;
-		this.content = content;
-		this.sendDate = new Date(); 
-		this.reward = rewards; 
-		this.sendType = sendType.getType(); 
-	}
-	
-	public Mail(int serverId, int mailId, String title, String content, Map<Integer, Long> rewards, MailSendType sendType){
-		setId(serverId+"_"+IdManager.genId(IdType.Mail));
-		setServerId(serverId);
-		this.mailId = mailId;
-		this.title = title;
-		this.content = content;
-		this.sendDate = new Date(); 
-		this.reward = rewards; 
-		this.sendType = sendType.getType(); 
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	public int getMailId() {
-		return mailId;
+		this.reward = reward;
+		this.sendType = sendType.getType();
+		this.receiver = receiver;
 	}
 
 
-	public String getContent() {
-		return content;
-	}
-	public int getSendType() {
-		return sendType;
-	}
-	
-
-	public Date getSendDate() {
-		return sendDate;
-	}
-	
-	public Set<Integer> getReceivers() {
-		return receivers;
-	}
-	
-	public void addReceivers(Set<Integer> receivers){
-		this.receivers.addAll(receivers);
-	}
-	
-	public void setReceivers(Set<Integer> receivers){
-		this.receivers = receivers; 
-	}
-	
-	public Map<Integer, Long> getReward() {
-		return reward;
-	}
-	
 	public boolean isHaveReward(){
 		return reward != null && !this.reward.isEmpty(); 
 	}
@@ -109,15 +54,16 @@ public class Mail extends BaseEntityMapper<String> {
 		return true;
 	}
 
+	public void init(){
+		if (StrUtil.isNotEmpty(getReceiver())){
+			this.receives = StringUtil.splitStr2IntegerList(getReceiver(),",");
+		}
+	}
 	
 	public long getSendDateTime() {
 		if(this.sendDate == null) {
 			return System.currentTimeMillis();
 		}
 		return this.sendDate.getTime();
-	}
-	
-	public void saveDB() {
-		saveDB();
 	}
 }

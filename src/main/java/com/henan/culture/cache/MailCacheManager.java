@@ -3,7 +3,10 @@ package com.henan.culture.cache;
 import com.google.common.collect.Maps;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.domain.repository.MailRepository;
 import com.henan.culture.enums.MailSendType;
+import com.henan.culture.infrastructure.util.SpringUtil;
+import org.springframework.data.domain.Example;
 
 import java.util.List;
 import java.util.Map;
@@ -20,18 +23,27 @@ public class MailCacheManager {
         return instance;
     }
 
-    private Map<String, Mail> mailMap = Maps.newConcurrentMap();
-
-
+    private Map<Integer, Mail> mailMap = Maps.newConcurrentMap();
 
     public void addMail(Mail mail){
         mailMap.put(mail.getId(), mail);
     }
 
+    /**
+     * 启动时加载 此处加载旧邮件
+     */
     public void init(){
-//        List<Mail> mail = Mail.queryListAll(0, Mail.class);
-//        mail.forEach(e -> addMail(e));
+        MailRepository mailRepository = SpringUtil.getBean(MailRepository.class);
+        List<Mail> mailList = mailRepository.findAll();
+
+        mailList.forEach(e -> {
+            if (e.isOldMail()){
+                e.init();
+                addMail(e);
+            }
+        });
     }
+
 
     /**
      * 登陆时检查是否有系统邮件
@@ -54,10 +66,15 @@ public class MailCacheManager {
      * @return
      *
      */
-    public Mail getMail(String id) {
+    public Mail getMail(Integer id) {
         Mail mail = mailMap.get(id);
         if(mail == null) {
-            mail = Mail.queryOne(0, mail.getId(), Mail.class);
+            MailRepository mailRepository = SpringUtil.getBean(MailRepository.class);
+            mail = mailRepository.getOne(id);
+            if (mail != null){
+                mail.init();
+                addMail(mail);
+            }
         }
         return mail;
     }
@@ -73,7 +90,10 @@ public class MailCacheManager {
      *
      */
     private boolean isAddPlayerMail(Player player, Mail mail) {
-        if(mail.getSendType() == MailSendType.All.getType() || mail.getReceivers().contains(player.getId())) {
+        if(mail.getSendType() == MailSendType.All.getType() || mail.getReceives().contains(player.getId())) {
+            if (mail.getSendDateTime() < player.getRegisterTime()){
+                return false;
+            }
             if(!player.getPlayerMail().isHaveMail(mail)) {
                 return true;
             }

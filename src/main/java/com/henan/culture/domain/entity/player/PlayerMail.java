@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.enums.MailState;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -15,22 +16,17 @@ import java.util.stream.Collectors;
  * @version
  */
 public class PlayerMail{
-	private ConcurrentHashMap<String, Integer> sysMailMap = new ConcurrentHashMap<String, Integer>();  
+	private ConcurrentHashMap<Integer, Integer> sysMailMap = new ConcurrentHashMap<Integer, Integer>();
 	
-	public int getMailState(String id){
+	public int getMailState(Integer id){
 		return sysMailMap.get(id);
 	}
 	
-	public List<String> getMailIdList() {
-		List<String> idList = sysMailMap.entrySet().stream()
+	public List<Integer> getMailIdList() {
+		List<Integer> idList = sysMailMap.entrySet().stream()
 				.filter(e -> e.getValue() != MailState.Del.getType())
 				.map(e -> e.getKey())
-				.sorted((v1, v2) -> {
-					if(v1.length() == v2.length()) {
-						return v2.compareTo(v1);
-					}
-					return v2.length() - v1.length();
-				})
+				.sorted(Comparator.comparing(Integer::intValue).reversed())
 				.collect(Collectors.toList());
 		return idList;
 	}
@@ -60,7 +56,7 @@ public class PlayerMail{
 	/**
 	 * 领取附件
 	 */
-	public void getReward(String id) {
+	public void getReward(Integer id) {
 		sysMailMap.put(id, MailState.Get.getType());
 	}
 
@@ -90,8 +86,8 @@ public class PlayerMail{
 	 * @return  
 	 *
 	 */
-	public List<String> readAll(){
-		List<String> list = Lists.newArrayList();
+	public List<Integer> readAll(){
+		List<Integer> list = Lists.newArrayList();
 		sysMailMap.forEach((x,y)->{
 			if(readAll(x,y)){
 				list.add(x);
@@ -100,7 +96,7 @@ public class PlayerMail{
 		return list; 
 	}
 	
-	private boolean readAll(String id,int state){
+	private boolean readAll(Integer id,int state){
 		switch(MailState.getState(state)) {
 			case NewMail:
 				sysMailMap.put(id, MailState.Read.getType());
@@ -131,17 +127,12 @@ public class PlayerMail{
 		return size; 
 	}
 	
-	public int getState(String id){
+	public int getState(Integer id){
 		return sysMailMap.get(id);
 	}
 	
-	public ConcurrentNavigableMap<String, Integer> getMailSortMap() {
-		ConcurrentSkipListMap<String, Integer> sortMap = new ConcurrentSkipListMap<String, Integer>((v1, v2) -> {
-			if(v1.length() == v2.length()) {
-				return v1.compareTo(v2);
-			}
-			return v1.length() - v2.length();
-		});
+	public ConcurrentNavigableMap<Integer, Integer> getMailSortMap() {
+		ConcurrentSkipListMap<Integer, Integer> sortMap = new ConcurrentSkipListMap();
 		sortMap.putAll(this.sysMailMap);
 		return sortMap.descendingMap();
 	}
