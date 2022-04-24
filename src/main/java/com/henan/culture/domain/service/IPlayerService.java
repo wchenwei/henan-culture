@@ -7,5 +7,5 @@ public interface IPlayerService {
 
     Player loadPlayer(WxAccount wxAccount);
 
-    void checkDayReset(Player player);
+    boolean checkDayReset(Player player);
 }

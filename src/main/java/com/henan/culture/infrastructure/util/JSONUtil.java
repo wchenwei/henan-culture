@@ -1,7 +1,10 @@
 package com.henan.culture.infrastructure.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.parser.Feature;
 
 import java.util.List;
 
@@ -22,4 +25,15 @@ public enum JSONUtil {
         return JSONArray.parseArray(resultList).toJavaList(clazz);
     }
 
+    public static String toJson(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
+    public static <T> T fromJson(String str, Class<T> cls) {
+        return JSON.parseObject(str, cls);
+    }
+
+    public static <T> T fromJson(String str, TypeReference<T> type) {
+        return JSON.parseObject(str, type, new Feature[0]);
+    }
 }

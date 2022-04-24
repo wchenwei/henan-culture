@@ -25,7 +25,6 @@ public class ItemUtil {
                 }
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
         }
         return itemMap;
     }

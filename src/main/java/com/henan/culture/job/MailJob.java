@@ -3,6 +3,7 @@ package com.henan.culture.job;
 import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.domain.repository.MailRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author: chenwei
  * @create: 2022-04-23 10:53
  **/
+@Slf4j
 @Component
 public class MailJob {
     @Autowired
@@ -27,7 +29,7 @@ public class MailJob {
             e.init();
             mailRepository.save(e);
             MailCacheManager.getInstance().addMail(e);
+            log.error("加载邮件："+ mailList);
         });
-        System.err.println("加载邮件："+ mailList);
     }
 }

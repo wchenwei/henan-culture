@@ -33,12 +33,15 @@ public class PlayerService implements IPlayerService {
         return player;
     }
 
-    public void checkDayReset(Player player) {
+    @Override
+    public boolean checkDayReset(Player player) {
         String dayMark = DateUtil.format(new Date(), "yyyyMMdd");
         if (!dayMark.equals(player.getDayMark())){
             doDayReset(player);
             player.setDayMark(dayMark);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -46,7 +49,7 @@ public class PlayerService implements IPlayerService {
      * @param player
      */
     private void doDayReset(Player player) {
-        player.setLifeCount(Constants.lifeCount);
+        player.getPlayerShare().clear();
     }
 
 }

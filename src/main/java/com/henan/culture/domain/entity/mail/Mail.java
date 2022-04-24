@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.henan.culture.enums.MailSendType;
 import com.henan.culture.infrastructure.util.StringUtil;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "y_mail")
 @Data
+@NoArgsConstructor
 public class Mail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

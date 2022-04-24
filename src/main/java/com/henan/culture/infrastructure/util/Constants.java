@@ -8,6 +8,7 @@ package com.henan.culture.infrastructure.util;
 public class Constants {
 
     public static String gamePrefix = "culture_dev";
+    public static String JsonPath = "classpath:json/";
 
     public static final int OK = 0;
     public static final int Error = 1;
