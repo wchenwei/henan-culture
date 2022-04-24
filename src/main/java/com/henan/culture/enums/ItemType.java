@@ -11,6 +11,7 @@ public enum ItemType {
     Help(1,"辅助线道具"),
     Score(2,"得分加倍道具"),
     Relive(3,"复活道具"),
+    RealGoods(4,"实物"),
     ;
 
     ItemType(Integer type, String desc) {

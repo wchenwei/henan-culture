@@ -1,5 +1,7 @@
 package com.henan.culture.enums;
 
+import java.util.Arrays;
+
 /**
  * @description:
  * @author: chenwei
@@ -21,5 +23,13 @@ public enum ShareType {
 
     public int getType() {
         return type;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public static ShareType getShareType(int type){
+        return Arrays.stream(ShareType.values()).filter(e -> e.getType() == type).findFirst().orElse(null);
     }
 }

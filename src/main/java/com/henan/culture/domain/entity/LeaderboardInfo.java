@@ -1,5 +1,7 @@
 package com.henan.culture.domain.entity;
 
+import com.henan.culture.cache.PlayerCacheManager;
+import com.henan.culture.domain.entity.player.Player;
 import org.springframework.data.redis.core.ZSetOperations;
 
 /**
@@ -9,6 +11,7 @@ import org.springframework.data.redis.core.ZSetOperations;
  */
 public class LeaderboardInfo {
     private int id;//玩家id
+    private String name;// 玩家名称
     private int rank;//排名
     private double score;//分数
 
@@ -20,9 +23,13 @@ public class LeaderboardInfo {
 
     public LeaderboardInfo(ZSetOperations.TypedTuple<String> data, int rank) {
         try {
-            this.score = data.getScore();
-            this.id = Integer.parseInt(data.getValue());
-            this.rank = rank;
+            Player player = PlayerCacheManager.getInstance().getPlayerOrNull(id);
+            if (player != null){
+                this.score = data.getScore();
+                this.id = Integer.parseInt(data.getValue());
+                this.rank = rank;
+                this.name = player.getName();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,9 @@
 package com.henan.culture.domain.entity.mail;
 
 import cn.hutool.core.util.StrUtil;
+import com.henan.culture.domain.entity.Items;
 import com.henan.culture.enums.MailSendType;
+import com.henan.culture.infrastructure.util.ItemUtils;
 import com.henan.culture.infrastructure.util.StringUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,8 @@ public class Mail {
 	private Date sendDate; //发送日期
 	private String receiver; //收件人
 	private String reward; // 奖励
+	@Transient
+	private List<Items> rewardItems;
 	@Transient
 	private List<Integer> receives;
 	private boolean oldMail; //未加载过的邮件
@@ -59,6 +63,9 @@ public class Mail {
 	public void init(){
 		if (StrUtil.isNotEmpty(getReceiver())){
 			this.receives = StringUtil.splitStr2IntegerList(getReceiver(),",");
+		}
+		if (StrUtil.isNotEmpty(getReward())){
+			this.rewardItems = ItemUtils.str2DefaultItemImmutableList(getReward());
 		}
 	}
 	

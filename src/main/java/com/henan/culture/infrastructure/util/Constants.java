@@ -13,9 +13,6 @@ public class Constants {
     public static final int OK = 0;
     public static final int Error = 1;
 
-
-
-    public static final int lifeCount = 3;
-
-
+    public static final int Relive_Item_Id = 3001;
+    public static final int Max_Share_Count = 3;
 }

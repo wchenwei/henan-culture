@@ -1,7 +1,6 @@
 package com.henan.culture.domain.entity.player;
 
 import com.google.common.collect.Maps;
-import com.henan.culture.enums.ItemType;
 import lombok.Getter;
 
 import java.util.Map;
@@ -16,25 +15,33 @@ public class PlayerBag {
     private Map<Integer, Long> itemMap = Maps.newConcurrentMap();
 
 
-    public void addItem(ItemType itemType, long add){
-        itemMap.merge(itemType.getType(), add, Long::sum);
+    public void addItem(int itemId, long add){
+        itemMap.merge(itemId, add, Long::sum);
     }
 
-    public void addItem(Map<ItemType, Long> addItemMap){
-        addItemMap.forEach((key, value)-> itemMap.merge(key.getType() ,value, Long::sum));
+    public void addItem(Map<Integer, Long> addItemMap){
+        addItemMap.forEach((key, value)-> itemMap.merge(key ,value, Long::sum));
     }
 
-    public void sendItem(ItemType itemType, long reduce){
-        itemMap.put(itemType.getType(), itemMap.getOrDefault(itemType.getType(),0l) - reduce);
+    public void spendItem(int itemId, long reduce){
+        itemMap.put(itemId, itemMap.getOrDefault(itemId,0l) - reduce);
     }
 
-    public boolean checkEnough(ItemType itemType, long reduce){
-        return itemMap.getOrDefault(itemType.getType(), 0L) >= reduce;
+    public boolean checkEnough(int itemId, long reduce){
+        return itemMap.getOrDefault(itemId, 0L) >= reduce;
     }
 
-    public boolean checkAndSpendItem(ItemType itemType, long reduce){
-        if (checkEnough(itemType, reduce)){
-            sendItem(itemType,reduce);
+    public long getItemTotal(int itemId){
+        return itemMap.getOrDefault(itemId, 0L);
+    }
+
+    public void removeItem(Integer itemId){
+        this.itemMap.remove(itemId);
+    }
+
+    public boolean checkAndSpendItem(int itemId, long reduce){
+        if (checkEnough(itemId, reduce)){
+            spendItem(itemId, reduce);
             return true;
         }
         return false;

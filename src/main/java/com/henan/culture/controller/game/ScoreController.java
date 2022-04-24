@@ -29,6 +29,9 @@ public class ScoreController extends BaseController {
     public ResponseDTO update(HttpServletRequest request) {
         int score = Integer.parseInt(request.getParameter("score"));
         Player player = getLoginPlayer(request);
+        if (player == null){
+            return ResponseDTO.Fail("玩家不存在");
+        }
         if (player.getPlayerScore().checkAndReset(score)){
             rankService.updatePlayerRank(player, RankType.Score, score);
             player.saveDB();
@@ -40,6 +43,9 @@ public class ScoreController extends BaseController {
     public ResponseDTO rank(HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         Player player = getLoginPlayer(request);
+        if (player == null){
+            return ResponseDTO.Fail("玩家不存在");
+        }
         long playerRank = rankService.getPlayerRank(player, RankType.Score);
         List<LeaderboardInfo> groupRanks = rankService.getGroupRanks(RankType.Score, pageNo);
         return ResponseDTO.Suc(player.buildBasePlayerDTO())
