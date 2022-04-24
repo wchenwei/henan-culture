@@ -10,6 +10,7 @@ public class LogType {
 
     public static final LogType Mail = new LogType("邮件", 1);
     public static final LogType Share = new LogType("分享", 2);
+    public static final LogType Question = new LogType("答题", 3);
 
     ;
 

@@ -1,7 +1,9 @@
 package com.henan.culture.config;
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.henan.culture.config.template.TuJianTemplate;
 import com.henan.culture.config.template.impl.DaTiTemplateImpl;
@@ -27,6 +29,7 @@ public class GameConfig extends ExcleConfig {
     private Map<Integer, DaTiTemplateImpl> daTiMap = Maps.newHashMap();
     private Map<Integer, TuJianTemplate> tuJianMap = Maps.newHashMap();
     private Map<Integer, RankPrizeTemplateImpl> rankPrizeMap = Maps.newHashMap();
+    private List<RankPrizeTemplateImpl> rankList = Lists.newArrayList();
 
     @Override
     public void loadConfig() {
@@ -55,6 +58,19 @@ public class GameConfig extends ExcleConfig {
         templates.forEach(e -> e.init());
         Map<Integer, RankPrizeTemplateImpl> tempMap = templates.stream().collect(Collectors.toMap(RankPrizeTemplateImpl::getId, Function.identity()));
         rankPrizeMap = ImmutableMap.copyOf(tempMap);
+        rankList = ImmutableList.copyOf(templates);
         log.error("排行奖励加载完成");
+    }
+
+    public DaTiTemplateImpl getDaTiTemplate(int id){
+        return daTiMap.get(id);
+    }
+
+    public TuJianTemplate getTuJianTemplate(int id){
+        return tuJianMap.get(id);
+    }
+
+    public RankPrizeTemplateImpl getRankPrizeTemplate(int rank){
+        return rankList.stream().filter(e -> e.isFit(rank)).findFirst().orElse(null);
     }
 }

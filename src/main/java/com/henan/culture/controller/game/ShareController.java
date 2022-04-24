@@ -30,6 +30,9 @@ public class ShareController extends BaseController {
     public ResponseDTO add(HttpServletRequest request) {
         String type = request.getParameter("type");// 分享类型
         Player player = getLoginPlayer(request);
+        if (player == null){
+            return ResponseDTO.Fail("玩家不存在");
+        }
         ShareType shareType = ShareType.getShareType(Integer.valueOf(type));
         if (shareType == null) {
             return ResponseDTO.Fail("分享类型不存在");
