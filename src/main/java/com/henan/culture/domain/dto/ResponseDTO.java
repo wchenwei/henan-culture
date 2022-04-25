@@ -33,8 +33,14 @@ public class ResponseDTO {
         return buildDTO(ResponseStatus.OK);
     }
 
+    // 返还基础数据
     public static ResponseDTO Suc(BasePlayerDTO playerDTO){
         return buildDTO(ResponseStatus.OK).addProperty("player", playerDTO);
+    }
+
+    // 全部数据
+    public static ResponseDTO Suc(Player player){
+        return Suc(player.buildDTO()).addMail(player).addTuJian(player);
     }
 
     public static ResponseDTO Fail(){
@@ -47,6 +53,16 @@ public class ResponseDTO {
 
     public ResponseDTO addProperty(String key, Object object){
         this.data.put(key, object);
+        return this;
+    }
+
+    public ResponseDTO addMail(Player player){
+        this.addProperty("playerMails", player.buildMailDTO().getMailList());
+        return this;
+    }
+
+    public ResponseDTO addTuJian(Player player){
+        this.addProperty("playerTuJian", player.getPlayerPoked().getList());
         return this;
     }
 

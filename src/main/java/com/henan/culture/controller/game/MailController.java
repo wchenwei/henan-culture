@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.MailDTO;
+import com.henan.culture.domain.dto.MailVO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.Items;
 import com.henan.culture.domain.entity.mail.Mail;
@@ -41,9 +42,7 @@ public class MailController extends BaseController {
         if (player == null){
             return ResponseDTO.Fail("玩家不存在");
         }
-        List<Mail> playerMail = mailService.getPlayerMail(player);
-        MailDTO mailDTO = player.buildMailDTO().setMailList(playerMail);
-        return ResponseDTO.Suc().addProperty("mail", mailDTO);
+        return ResponseDTO.Suc().addMail(player);
     }
 
     @RequestMapping("/read")
@@ -67,7 +66,7 @@ public class MailController extends BaseController {
         }
         player.getPlayerMail().readMail(mail);
         player.saveDB();
-        return ResponseDTO.Suc(player.buildMailDTO());
+        return ResponseDTO.Suc().addMail(player);
     }
 
     @RequestMapping("/getReward")
@@ -89,11 +88,14 @@ public class MailController extends BaseController {
         if(player.getPlayerMail().getMailState(mail.getId()) == MailState.Get.getType()){
             return ResponseDTO.Fail();
         }
-        List<Items> items = ItemUtils.str2DefaultItemList(mail.getReward());
+        List<Items> items = mail.getRewardItems();
+        player.getPlayerMail().getReward(id);
         itemService.addItem(player, items, LogType.Mail);
         player.saveDB();
 
-        return ResponseDTO.Suc(player.buildDTO());
+        return ResponseDTO.Suc(player.buildDTO())
+                .addProperty("mail", new MailVO(player,mail))
+                .addProperty("mailReward", items);
     }
 
     @RequestMapping("/add")

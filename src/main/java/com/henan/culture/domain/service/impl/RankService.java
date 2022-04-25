@@ -48,7 +48,11 @@ public class RankService implements IRankService {
 
     @Override
     public long getPlayerRank(Player player, RankType rankType) {
-        return stringRedisTemplate.opsForZSet().reverseRank(rankType.getRankType(), player.getId());
+        Long rank = stringRedisTemplate.opsForZSet().rank(rankType.getRankType(), String.valueOf(player.getId()));
+        if (rank == null){
+            return -1;
+        }
+        return rank;
     }
 
     @Override
@@ -66,7 +70,7 @@ public class RankService implements IRankService {
 
     @Override
     public Long getPlayerScore(Player player, RankType rankType) {
-        Double score  = stringRedisTemplate.opsForZSet().score(rankType.getRankType(), player.getId());
+        Double score  = stringRedisTemplate.opsForZSet().score(rankType.getRankType(), String.valueOf(player.getId()));
         if (score == null){
             return 0L;
         }

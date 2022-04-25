@@ -36,22 +36,8 @@ public class ScoreController extends BaseController {
             rankService.updatePlayerRank(player, RankType.Score, score);
             player.saveDB();
         }
-        return ResponseDTO.Suc(player.buildBasePlayerDTO());
+        return ResponseDTO.Suc(player.buildDTO());
     }
 
-    @RequestMapping("/rank")
-    public ResponseDTO rank(HttpServletRequest request) {
-        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-        Player player = getLoginPlayer(request);
-        if (player == null){
-            return ResponseDTO.Fail("玩家不存在");
-        }
-        long playerRank = rankService.getPlayerRank(player, RankType.Score);
-        List<LeaderboardInfo> groupRanks = rankService.getGroupRanks(RankType.Score, pageNo);
-        return ResponseDTO.Suc(player.buildBasePlayerDTO())
-                .addProperty("playerRank", playerRank)
-                .addProperty("ranks", groupRanks)
-                ;
-    }
 
 }

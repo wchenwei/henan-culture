@@ -26,14 +26,18 @@ public class RankController extends BaseController {
     private IRankService rankService;
 
     @RequestMapping("/list")
-    public ResponseDTO rankList(HttpServletRequest request){
+    public ResponseDTO list(HttpServletRequest request) {
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         Player player = getLoginPlayer(request);
         if (player == null){
             return ResponseDTO.Fail("玩家不存在");
         }
-        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-        List<LeaderboardInfo> ranks = rankService.getGroupRanks(RankType.Score, pageNo);
-        return ResponseDTO.Suc().addProperty("ranks", ranks);
+        long playerRank = rankService.getPlayerRank(player, RankType.Score);
+        List<LeaderboardInfo> groupRanks = rankService.getGroupRanks(RankType.Score, pageNo);
+        return ResponseDTO.Suc(player.buildBasePlayerDTO())
+                .addProperty("myRank", playerRank)
+                .addProperty("rankInfos", groupRanks)
+                ;
     }
 
 }

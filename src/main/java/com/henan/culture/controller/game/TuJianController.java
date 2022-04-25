@@ -30,7 +30,7 @@ public class TuJianController extends BaseController {
             playerPoked.addPoked(id);
             player.saveDB();
         }
-        return ResponseDTO.Suc().addProperty("tuJian", playerPoked.getList());
+        return ResponseDTO.Suc().addTuJian(player);
     }
 
     @RequestMapping("/list")
@@ -39,7 +39,6 @@ public class TuJianController extends BaseController {
         if (player == null){
             return ResponseDTO.Fail("玩家不存在");
         }
-        PlayerPoked playerPoked = player.getPlayerPoked();
-        return ResponseDTO.Suc().addProperty("tuJian", playerPoked.getList());
+        return ResponseDTO.Suc().addTuJian(player);
     }
 }

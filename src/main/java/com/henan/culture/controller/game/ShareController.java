@@ -37,15 +37,14 @@ public class ShareController extends BaseController {
         if (shareType == null) {
             return ResponseDTO.Fail("分享类型不存在");
         }
-        if (player.getPlayerShare().getShareCount(shareType) > Constants.Max_Share_Count){
-            return ResponseDTO.Fail();
+        if (player.getPlayerShare().getShareCount(shareType) < Constants.Max_Share_Count){
+            // 分享得重生道具
+            if (shareType == ShareType.Relive) {
+                itemService.addItem(player, ItemType.Relive, Constants.Relive_Item_Id, 1, LogType.Share.value(shareType.getDesc()));
+            }
+            player.getPlayerShare().addShare(shareType);
+            player.saveDB();
         }
-        // 分享得重生道具
-        if (shareType == ShareType.Relive) {
-            itemService.addItem(player, ItemType.Relive, Constants.Relive_Item_Id, 1, LogType.Share.value(shareType.getDesc()));
-        }
-        player.getPlayerShare().addShare(shareType);
-        player.saveDB();
-        return ResponseDTO.Suc();
+        return ResponseDTO.Suc(player.buildDTO());
     }
 }

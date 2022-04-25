@@ -20,7 +20,7 @@ public class PlayerShare {
     }
 
     public int getShareCount(ShareType shareType){
-        return shareCntMap.get(shareType.getType());
+        return shareCntMap.getOrDefault(shareType.getType(),0);
     }
 
     public void clear(){

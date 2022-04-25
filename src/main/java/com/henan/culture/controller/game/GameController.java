@@ -32,9 +32,9 @@ public class GameController extends BaseController {
         if (player == null){
             return ResponseDTO.Fail("玩家不存在");
         }
-        if (playerService.checkDayReset(player)){
-            player.saveDB();
-        }
-        return ResponseDTO.Suc(player.buildDTO());
+        playerService.checkDayReset(player);
+        player.getPlayerQuestion().clear();
+        player.saveDB();
+        return ResponseDTO.Suc(player);
     }
 }

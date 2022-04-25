@@ -39,9 +39,7 @@ public class Items {
 	public void reduceCount(long reduce) {
 		this.count -= reduce;
 	}
-	public ItemType getEnumItemType() {
-		return ItemType.getItemType(this.type);
-	}
+
 	public void setItemType(ItemType itemType) {
 		this.type = itemType.getType();
 	}

@@ -36,13 +36,13 @@ public class TestAction extends BaseController {
         WxAccount wxAccount = accountService.getWxAccount(wxOpenId, name);
         System.out.println("account:"+ JSONUtil.toJsonStr(wxAccount));
         Player player = accountService.accountLogin(wxAccount);
-        return ResponseDTO.Suc(player.buildDTO());
+        return ResponseDTO.Suc(player);
     }
 
     @RequestMapping("/login")
     public ResponseDTO login(HttpServletRequest request) {
         WxAccount account = getLoginAccount(request);
         Player player = accountService.accountLogin(account);
-        return  ResponseDTO.Suc().addProperty("player", player.buildDTO());
+        return  ResponseDTO.Suc(player);
     }
 }

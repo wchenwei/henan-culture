@@ -25,7 +25,7 @@ public class ItemService implements IItemService {
      */
     @Override
     public void addItem(Player player, Items item, LogType logType) {
-        addItem(player,item.getEnumItemType(),item.getId(),item.getCount(),logType);
+        addItem(player,ItemType.getItemType(item.getType()),item.getId(),item.getCount(),logType);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ItemService implements IItemService {
      */
     @Override
     public boolean reduceItem(Player player, Items item, LogType logType) {
-        return reduceItem(player,item.getEnumItemType(),item.getId(),item.getCount(),logType);
+        return reduceItem(player,ItemType.getItemType(item.getType()),item.getId(),item.getCount(),logType);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class ItemService implements IItemService {
      */
     @Override
     public boolean checkItemEnough(Player player, Items item) {
-        return checkItemEnough(player,item.getEnumItemType(),item.getId(),item.getCount());
+        return checkItemEnough(player,ItemType.getItemType(item.getType()),item.getId(),item.getCount());
     }
 
     @Override

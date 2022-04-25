@@ -19,11 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Accessors(chain = true)
-public class MailDTO extends BasePlayerDTO {
+public class MailDTO {
     private List<MailVO> mailList = Lists.newArrayList();
 
     public MailDTO(Player player) {
-        super(player);
         loadMailVOList(player);
     }
 

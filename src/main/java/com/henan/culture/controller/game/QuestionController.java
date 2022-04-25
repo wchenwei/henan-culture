@@ -39,10 +39,15 @@ public class QuestionController extends BaseController {
         if (template == null){
             return ResponseDTO.Fail("参数错误");
         }
+        if (player.getPlayerQuestion().isAnswer(id)){
+            return ResponseDTO.Fail("已答过该题");
+        }
+        player.getPlayerQuestion().add(id);
         if (!template.isRight(options)){
             return ResponseDTO.Suc();
         }
         itemService.addItem(player, template.getRewards(), LogType.Question);
-        return ResponseDTO.Suc().addProperty("reward", template.getRewards());
+        player.saveDB();
+        return ResponseDTO.Suc(player.buildDTO()).addProperty("rewards", template.getRewards());
     }
 }

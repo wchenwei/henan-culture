@@ -33,7 +33,7 @@ public class AccountController{
         try {
             Player player = accountService.userLogin(codeDTO);
             if (player != null){
-                return ResponseDTO.Suc(player.buildDTO());
+                return ResponseDTO.Suc(player);
             }
         } catch (Exception e) {
             return ResponseDTO.Fail();

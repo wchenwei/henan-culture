@@ -86,7 +86,7 @@ public class ItemUtils {
 		}
 		List<Items> newList = Lists.newArrayList();
 		for (Items item : itemList) {
-			if(item.getEnumItemType() == itemType) {
+			if(ItemType.getItemType(item.getType()) == itemType) {
 				Items newItem = item.clone();
 				newItem.setCount((long)(newItem.getCount()*(1+extraAdd)));
 				newList.add(newItem);
