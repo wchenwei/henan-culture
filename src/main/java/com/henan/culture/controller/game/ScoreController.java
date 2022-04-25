@@ -2,16 +2,14 @@ package com.henan.culture.controller.game;
 
 import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
-import com.henan.culture.domain.entity.LeaderboardInfo;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.service.IRankService;
+import com.henan.culture.service.IRankService;
 import com.henan.culture.enums.RankType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @description: 积分

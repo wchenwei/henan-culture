@@ -3,10 +3,9 @@ package com.henan.culture.cache;
 import com.google.common.collect.Maps;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.repository.MailRepository;
+import com.henan.culture.repository.MailRepository;
 import com.henan.culture.enums.MailSendType;
-import com.henan.culture.infrastructure.util.SpringUtil;
-import org.springframework.data.domain.Example;
+import com.henan.culture.utils.util.SpringUtil;
 
 import java.util.List;
 import java.util.Map;

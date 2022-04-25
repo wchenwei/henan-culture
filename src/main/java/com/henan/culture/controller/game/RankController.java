@@ -4,7 +4,7 @@ import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.LeaderboardInfo;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.service.IRankService;
+import com.henan.culture.service.IRankService;
 import com.henan.culture.enums.RankType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +34,7 @@ public class RankController extends BaseController {
         }
         long playerRank = rankService.getPlayerRank(player, RankType.Score);
         List<LeaderboardInfo> groupRanks = rankService.getGroupRanks(RankType.Score, pageNo);
-        return ResponseDTO.Suc(player.buildBasePlayerDTO())
+        return ResponseDTO.Suc()
                 .addProperty("myRank", playerRank)
                 .addProperty("rankInfos", groupRanks)
                 ;

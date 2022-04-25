@@ -2,7 +2,7 @@ package com.henan.culture.job;
 
 import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.domain.entity.mail.Mail;
-import com.henan.culture.domain.repository.MailRepository;
+import com.henan.culture.repository.MailRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

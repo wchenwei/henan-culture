@@ -2,19 +2,15 @@ package com.henan.culture.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.henan.culture.controller.base.BaseController;
-import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.WxAccount;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.service.IAccountService;
+import com.henan.culture.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
 
 
 /**

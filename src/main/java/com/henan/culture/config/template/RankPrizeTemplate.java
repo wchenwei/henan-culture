@@ -1,6 +1,6 @@
 package com.henan.culture.config.template;
 
-import com.henan.culture.infrastructure.config.excel.FileConfig;
+import com.henan.culture.utils.config.excel.FileConfig;
 import lombok.Data;
 
 /**

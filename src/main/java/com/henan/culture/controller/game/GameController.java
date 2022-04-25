@@ -3,7 +3,7 @@ package com.henan.culture.controller.game;
 import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.service.IPlayerService;
+import com.henan.culture.service.IPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

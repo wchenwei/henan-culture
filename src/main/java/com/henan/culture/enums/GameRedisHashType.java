@@ -1,9 +1,9 @@
 package com.henan.culture.enums;
 
 import cn.hutool.core.convert.Convert;
-import com.henan.culture.infrastructure.gson.GSONUtils;
-import com.henan.culture.infrastructure.springredis.RedisDBClient;
-import com.henan.culture.infrastructure.springredis.RedisKeyUtils;
+import com.henan.culture.utils.gson.GSONUtils;
+import com.henan.culture.utils.springredis.RedisDBClient;
+import com.henan.culture.utils.springredis.RedisKeyUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;

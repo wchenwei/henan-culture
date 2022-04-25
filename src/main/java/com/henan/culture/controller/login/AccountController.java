@@ -3,7 +3,7 @@ package com.henan.culture.controller.login;
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.domain.service.impl.AccountService;
+import com.henan.culture.service.impl.AccountService;
 import com.henan.culture.enums.ResponseStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +38,7 @@ public class AccountController{
         } catch (Exception e) {
             return ResponseDTO.Fail();
         }
-        return ResponseDTO.buildDTO(ResponseStatus.LOGIN_FAIL);
+        return ResponseDTO.Fail();
     }
 
 

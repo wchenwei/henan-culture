@@ -2,8 +2,8 @@ package com.henan.culture.cache;
 
 import com.google.common.cache.*;
 import com.henan.culture.domain.entity.WxAccount;
-import com.henan.culture.domain.repository.WxAccountRepository;
-import com.henan.culture.infrastructure.util.SpringUtil;
+import com.henan.culture.repository.WxAccountRepository;
+import com.henan.culture.utils.util.SpringUtil;
 
 import java.util.concurrent.TimeUnit;
 

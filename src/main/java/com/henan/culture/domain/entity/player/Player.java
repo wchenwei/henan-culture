@@ -3,9 +3,9 @@ package com.henan.culture.domain.entity.player;
 import com.henan.culture.domain.dto.BasePlayerDTO;
 import com.henan.culture.domain.dto.MailDTO;
 import com.henan.culture.domain.dto.PlayerDTO;
-import com.henan.culture.infrastructure.springredis.base.BaseEntityMapper;
-import com.henan.culture.infrastructure.springredis.common.MapperType;
-import com.henan.culture.infrastructure.springredis.common.RedisMapperType;
+import com.henan.culture.utils.springredis.base.BaseEntityMapper;
+import com.henan.culture.utils.springredis.common.MapperType;
+import com.henan.culture.utils.springredis.common.RedisMapperType;
 import lombok.Data;
 
 /**

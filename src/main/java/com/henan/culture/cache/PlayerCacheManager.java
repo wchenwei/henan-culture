@@ -46,7 +46,11 @@ public class PlayerCacheManager {
     }
 
     public Player getPlayer(WxAccount account) {
-        Player player = cache.getUnchecked(account.getId());
+       return getPlayer(account.getId());
+    }
+
+    public Player getPlayer(Integer id) {
+        Player player = cache.getUnchecked(id);
         return player.getId().equals(DefaultValue.getId()) ? null : player;
     }
 
@@ -58,14 +62,6 @@ public class PlayerCacheManager {
         cache.invalidateAll();
     }
 
-    public Player getPlayerOrNull(int playerId) {
-        try {
-            return cache.getIfPresent(playerId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public void doRemoveFoSave(Player player) {
         player.saveDB();
     }
