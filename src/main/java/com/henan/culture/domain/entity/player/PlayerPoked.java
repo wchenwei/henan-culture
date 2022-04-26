@@ -20,6 +20,10 @@ public class PlayerPoked {
         list.add(id);
     }
 
+    public void addIds(List<Integer> ids){
+        list.addAll(ids);
+    }
+
     public boolean isContain(int id){
         return list.contains(id);
     }

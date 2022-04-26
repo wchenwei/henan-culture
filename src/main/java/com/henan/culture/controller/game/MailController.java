@@ -60,11 +60,11 @@ public class MailController extends BaseController {
                 || mailState == MailState.Get.getType()
                 || mailState == MailState.Del.getType()
         ) {
-            return ResponseDTO.Fail("邮件已读");
+            return ResponseDTO.Suc();
         }
         player.getPlayerMail().readMail(mail);
         player.saveDB();
-        return ResponseDTO.Suc().addMail(player);
+        return ResponseDTO.Suc().addProperty("state", player.getPlayerMail().getMailState(id));
     }
 
     @RequestMapping("/getReward")
@@ -91,9 +91,7 @@ public class MailController extends BaseController {
         itemService.addItem(player, items, LogType.Mail);
         player.saveDB();
 
-        return ResponseDTO.Suc(player.buildDTO())
-                .addProperty("mail", new MailVO(player,mail))
-                .addProperty("mailReward", items);
+        return ResponseDTO.Suc(player.buildDTO());
     }
 
     @RequestMapping("/add")

@@ -37,8 +37,11 @@ public class TestAction extends BaseController {
 
     @RequestMapping("/login")
     public ResponseDTO login(HttpServletRequest request) {
-        WxAccount account = getLoginAccount(request);
-        Player player = accountService.accountLogin(account);
+        String name = request.getParameter("name");
+        String wxOpenId = request.getParameter("wxOpenId");
+        WxAccount wxAccount = accountService.getWxAccount(wxOpenId, name);
+        System.out.println("account:"+ JSONUtil.toJsonStr(wxAccount));
+        Player player = accountService.accountLogin(wxAccount);
         return  ResponseDTO.Suc(player);
     }
 }

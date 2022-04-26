@@ -85,10 +85,10 @@ public class AccountService implements IAccountService {
         if (wxAccount == null) {
             wxAccount = new WxAccount();
             wxAccount.setWxOpenid(openId);    //不存在就新建用户
+            wxAccount.setLastTime(new Date());//注册时间
         }
-//        wxAccount.setSessionKey(sessionKey);
         wxAccount.setName(name);
-        wxAccount.setLastTime(new Date());
+        wxAccount.setLastLoginTime(new Date());
         wxAccountRepository.save(wxAccount);
         return wxAccount;
     }

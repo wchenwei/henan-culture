@@ -1,5 +1,7 @@
 package com.henan.culture.enums;
 
+import com.henan.culture.utils.util.Constants;
+
 /**
  * @description: 排行榜类型
  * @author: chenwei
@@ -17,6 +19,8 @@ public enum RankType {
     }
 
     public String getRankType() {
-        return rankType;
+        return Constants.gamePrefix+rankType;
     }
+
+
 }

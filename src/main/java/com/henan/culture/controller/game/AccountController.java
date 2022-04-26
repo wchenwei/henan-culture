@@ -1,4 +1,4 @@
-package com.henan.culture.controller.login;
+package com.henan.culture.controller.game;
 
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.ResponseDTO;

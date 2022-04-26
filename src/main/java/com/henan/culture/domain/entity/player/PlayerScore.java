@@ -13,6 +13,7 @@ import lombok.Setter;
 public class PlayerScore {
     private long maxScore;//最高分
 
+
     public boolean checkAndReset(int score){
         if (score > maxScore){
             this.maxScore = score;
@@ -20,4 +21,6 @@ public class PlayerScore {
         }
         return false;
     }
+
+
 }

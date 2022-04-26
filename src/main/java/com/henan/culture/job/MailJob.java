@@ -21,7 +21,7 @@ public class MailJob {
     @Autowired
     private MailRepository mailRepository;
 
-    @Scheduled(cron="*/3 * * * * ?")
+    @Scheduled(cron="*/5 * * * * ?")
     public void loadNewMail(){
         List<Mail> mailList = mailRepository.findByOldMailFalse();
         mailList.forEach(e ->{

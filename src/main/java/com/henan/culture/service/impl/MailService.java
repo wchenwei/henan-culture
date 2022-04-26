@@ -29,7 +29,8 @@ public class MailService implements IMailService {
         MailCacheManager.getInstance().loadPlayerSysMail(player);
         List<Integer> idList = player.getPlayerMail().getMailIdList();
         List<Mail> mailList = idList.stream().map(e -> MailCacheManager.getInstance().getMail(e))
-                .filter(Objects::nonNull).sorted(Comparator.comparingLong(Mail::getSendDateTime).reversed())
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparingLong(Mail::getSendDateTime).reversed())
                 .collect(Collectors.toList());
         return mailList;
     }

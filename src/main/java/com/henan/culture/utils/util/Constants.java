@@ -7,11 +7,9 @@ package com.henan.culture.utils.util;
  **/
 public class Constants {
 
-    public static String gamePrefix = "culture_dev";
+    public static String gamePrefix = "culture_dev_";
     public static String JsonPath = "classpath:json/";
 
-    public static final int OK = 0;
-    public static final int Error = 1;
 
     public static final int Relive_Item_Id = 3001;
     public static final int Max_Share_Count = 3;

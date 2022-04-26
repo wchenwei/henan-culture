@@ -48,6 +48,6 @@ public class QuestionController extends BaseController {
         }
         itemService.addItem(player, template.getRewards(), LogType.Question);
         player.saveDB();
-        return ResponseDTO.Suc(player.buildDTO()).addProperty("rewards", template.getRewards());
+        return ResponseDTO.Suc(player.buildDTO());
     }
 }

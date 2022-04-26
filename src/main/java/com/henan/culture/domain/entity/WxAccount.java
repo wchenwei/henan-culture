@@ -21,9 +21,11 @@ public class WxAccount {
     private Integer id;
     private String name;
     private String wxOpenid;
-    private String sessionKey;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastTime;// 注册时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @LastModifiedDate
-    private Date lastTime;
+    private Date lastLoginTime;//最后登录时间
+
 
 }

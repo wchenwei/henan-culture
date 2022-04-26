@@ -1,10 +1,7 @@
 package com.henan.culture.config;
 
 import com.alibaba.fastjson.TypeReference;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.*;
 import com.henan.culture.config.template.TuJianTemplate;
 import com.henan.culture.config.template.impl.DaTiTemplateImpl;
 import com.henan.culture.config.template.impl.RankPrizeTemplateImpl;
@@ -30,6 +27,7 @@ public class GameConfig extends ExcleConfig {
     private Map<Integer, TuJianTemplate> tuJianMap = Maps.newHashMap();
     private Map<Integer, RankPrizeTemplateImpl> rankPrizeMap = Maps.newHashMap();
     private List<RankPrizeTemplateImpl> rankList = Lists.newArrayList();
+    private ListMultimap<Integer, Integer> tuJianListMap = ArrayListMultimap.create();
 
     @Override
     public void loadConfig() {
@@ -50,6 +48,7 @@ public class GameConfig extends ExcleConfig {
         List<TuJianTemplate> templates = JSONUtil.fromJson(getJson(TuJianTemplate.class), new TypeReference<List<TuJianTemplate>>() {});
         Map<Integer, TuJianTemplate> tempMap = templates.stream().collect(Collectors.toMap(TuJianTemplate::getId, Function.identity()));
         tuJianMap = ImmutableMap.copyOf(tempMap);
+        templates.forEach(e -> tuJianListMap.put(e.getType(), e.getId()));
         log.error("图鉴加载完成");
     }
 
@@ -72,5 +71,9 @@ public class GameConfig extends ExcleConfig {
 
     public RankPrizeTemplateImpl getRankPrizeTemplate(int rank){
         return rankList.stream().filter(e -> e.isFit(rank)).findFirst().orElse(null);
+    }
+
+    public List<Integer> getTuJianIdsByType(int type){
+        return tuJianListMap.get(type);
     }
 }

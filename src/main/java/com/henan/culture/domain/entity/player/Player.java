@@ -26,6 +26,7 @@ public class Player extends BaseEntityMapper<Integer> {
     private PlayerMail playerMail = new PlayerMail();//邮件
     private PlayerShare playerShare = new PlayerShare();//分享
     private PlayerQuestion playerQuestion = new PlayerQuestion();
+    private PlayerChapter playerChapter = new PlayerChapter();
 
 
     public BasePlayerDTO buildBasePlayerDTO(){

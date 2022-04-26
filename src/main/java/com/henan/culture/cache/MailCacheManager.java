@@ -6,6 +6,7 @@ import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.repository.MailRepository;
 import com.henan.culture.enums.MailSendType;
 import com.henan.culture.utils.util.SpringUtil;
+import org.springframework.beans.BeansException;
 
 import java.util.List;
 import java.util.Map;
@@ -68,11 +69,15 @@ public class MailCacheManager {
     public Mail getMail(Integer id) {
         Mail mail = mailMap.get(id);
         if(mail == null) {
-            MailRepository mailRepository = SpringUtil.getBean(MailRepository.class);
-            mail = mailRepository.getOne(id);
-            if (mail != null){
-                mail.init();
-                addMail(mail);
+            try {
+                MailRepository mailRepository = SpringUtil.getBean(MailRepository.class);
+                mail = mailRepository.getOne(id);
+                if (mail != null){
+                    mail.init();
+                    addMail(mail);
+                }
+            } catch (Exception e) {
+                return null;
             }
         }
         return mail;

@@ -25,7 +25,7 @@ import java.util.List;
 public class MailVO {
 	private int id; //邮件ID
 	private String title; //标题
-	private Date sendDate; //发送时间
+	private long sendDate; //发送时间
 	private int state; //状态
 	private List<Items> reward; // 奖励
 	private String content;
@@ -33,7 +33,7 @@ public class MailVO {
 	public MailVO(Player player, Mail mail){
 		this.id = mail.getId();
 		this.title = mail.getTitle();
-		this.sendDate = mail.getSendDate(); 
+		this.sendDate = mail.getSendDate().getTime();
 		this.state = player.getPlayerMail().getMailState(id);
 		this.reward = mail.getRewardItems();
 		this.content = mail.getContent(); 

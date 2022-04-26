@@ -42,7 +42,7 @@ public class JwtConfig {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         String token = JWT.create()
                 .withClaim("wxOpenId", wxAccount.getWxOpenid())
-                .withClaim("sessionKey", wxAccount.getSessionKey())
+//                .withClaim("sessionKey", wxAccount.getSessionKey())
                 .withClaim("jwt-id", jwtId)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE_TIME * 1000))  //JWT 配置过期时间的正确姿势
                 .sign(algorithm);
