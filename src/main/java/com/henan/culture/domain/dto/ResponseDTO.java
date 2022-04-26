@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.ResponseStatus;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  **/
 @Data
 @Accessors(chain = true)
+@NoArgsConstructor
 public class ResponseDTO {
     private Integer code;
     private String content;

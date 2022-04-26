@@ -5,7 +5,10 @@ import com.henan.culture.domain.db.PlayerUtil;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.entity.WxAccount;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -73,6 +76,10 @@ public class PlayerCacheManager {
 
     public LoadingCache<Integer, Player> getCache() {
         return cache;
+    }
+
+    public List<Player> getPlayerByIds(List<Integer> ids){
+        return ids.stream().map(this::getPlayer).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 

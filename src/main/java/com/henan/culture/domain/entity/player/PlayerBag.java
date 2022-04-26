@@ -46,4 +46,8 @@ public class PlayerBag {
         }
         return false;
     }
+
+    public void reset(int itemId, long value){
+        this.itemMap.put(itemId, value);
+    }
 }

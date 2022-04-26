@@ -94,25 +94,25 @@ public class MailController extends BaseController {
         return ResponseDTO.Suc(player.buildDTO());
     }
 
-    @RequestMapping("/add")
-    public ResponseDTO addMail(HttpServletRequest request){
-        String title = request.getParameter("title");
-        String content = request.getParameter("content");
-        String sendType = request.getParameter("sendType");
-        String reward = request.getParameter("reward");
-        String receivers = request.getParameter("receivers");
-        if (StringUtils.isAnyEmpty(title, content, sendType, reward)){
-            return ResponseDTO.Fail("参数错误");
-        }
-        MailSendType mailType = MailSendType.getMailType(Integer.parseInt(sendType));
-        if (mailType == null){
-            return ResponseDTO.Fail("邮件类型错误");
-        }
-        if (mailType != MailSendType.All && StrUtil.isEmpty(receivers)){
-            return ResponseDTO.Fail("没有收件人");
-        }
-        mailService.addMail(title, content, mailType, receivers, reward);
-        return ResponseDTO.Suc();
-    }
+//    @RequestMapping("/add")
+//    public ResponseDTO addMail(HttpServletRequest request){
+//        String title = request.getParameter("title");
+//        String content = request.getParameter("content");
+//        String sendType = request.getParameter("sendType");
+//        String reward = request.getParameter("reward");
+//        String receivers = request.getParameter("receivers");
+//        if (StringUtils.isAnyEmpty(title, content, sendType, reward)){
+//            return ResponseDTO.Fail("参数错误");
+//        }
+//        MailSendType mailType = MailSendType.getMailType(Integer.parseInt(sendType));
+//        if (mailType == null){
+//            return ResponseDTO.Fail("邮件类型错误");
+//        }
+//        if (mailType != MailSendType.All && StrUtil.isEmpty(receivers)){
+//            return ResponseDTO.Fail("没有收件人");
+//        }
+//        mailService.addMail(title, content, mailType, receivers, reward);
+//        return ResponseDTO.Suc();
+//    }
 
 }
