@@ -5,7 +5,10 @@ import com.henan.culture.cache.PlayerCacheManager;
 import com.henan.culture.domain.db.PlayerUtil;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.domain.entity.WxAccount;
+import com.henan.culture.enums.RankType;
 import com.henan.culture.service.IPlayerService;
+import com.henan.culture.service.IRankService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,6 +20,9 @@ import java.util.Date;
  **/
 @Service
 public class PlayerService implements IPlayerService {
+
+    @Autowired
+    private IRankService rankService;
 
 
     @Override
@@ -48,6 +54,11 @@ public class PlayerService implements IPlayerService {
      */
     private void doDayReset(Player player) {
         player.getPlayerShare().clear();
+        // 重置分数
+        long score = rankService.getPlayerScore(player, RankType.Score);
+        if (score <= 0){
+            player.getPlayerScore().setMaxScore(0);
+        }
     }
 
 }

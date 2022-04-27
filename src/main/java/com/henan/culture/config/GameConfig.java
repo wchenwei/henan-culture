@@ -7,6 +7,7 @@ import com.henan.culture.config.template.impl.DaTiTemplateImpl;
 import com.henan.culture.config.template.impl.RankPrizeTemplateImpl;
 import com.henan.culture.utils.config.excel.ExcleConfig;
 import com.henan.culture.utils.util.JSONUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class GameConfig extends ExcleConfig {
     private Map<Integer, RankPrizeTemplateImpl> rankPrizeMap = Maps.newHashMap();
     private List<RankPrizeTemplateImpl> rankList = Lists.newArrayList();
     private ListMultimap<Integer, Integer> tuJianListMap = ArrayListMultimap.create();
+    @Getter
+    private int endRank;
 
     @Override
     public void loadConfig() {
@@ -54,7 +57,10 @@ public class GameConfig extends ExcleConfig {
 
     private void loadRank() {
         List<RankPrizeTemplateImpl> templates = JSONUtil.fromJson(getJson(RankPrizeTemplateImpl.class), new TypeReference<List<RankPrizeTemplateImpl>>() {});
-        templates.forEach(e -> e.init());
+        templates.forEach(e -> {
+            e.init();
+            this.endRank = Math.max(endRank, e.getEnd());
+        });
         Map<Integer, RankPrizeTemplateImpl> tempMap = templates.stream().collect(Collectors.toMap(RankPrizeTemplateImpl::getId, Function.identity()));
         rankPrizeMap = ImmutableMap.copyOf(tempMap);
         rankList = ImmutableList.copyOf(templates);
@@ -71,6 +77,10 @@ public class GameConfig extends ExcleConfig {
 
     public RankPrizeTemplateImpl getRankPrizeTemplate(int rank){
         return rankList.stream().filter(e -> e.isFit(rank)).findFirst().orElse(null);
+    }
+
+    public List<RankPrizeTemplateImpl> getRankPrizeTemplateList(){
+        return rankPrizeMap.values().stream().collect(Collectors.toList());
     }
 
     public List<Integer> getTuJianIdsByType(int type){

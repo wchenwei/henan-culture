@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @description:
+ * @description: 邮件
  * @author: chenwei
  * @create: 2022-04-20 13:42
  **/

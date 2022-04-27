@@ -17,11 +17,10 @@ import java.util.List;
  * @create: 2022-04-23 16:12
  **/
 @FileConfig("rankprize")
+@Getter
 public class RankPrizeTemplateImpl extends RankPrizeTemplate {
     private int start;
     private int end;
-
-    @Getter
     private List<Items> rewards = Lists.newArrayList();
 
     public void init(){

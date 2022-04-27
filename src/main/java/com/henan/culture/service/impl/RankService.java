@@ -1,5 +1,6 @@
 package com.henan.culture.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Lists;
 import com.henan.culture.domain.entity.LeaderboardInfo;
 import com.henan.culture.domain.entity.player.Player;
@@ -10,6 +11,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -66,6 +68,16 @@ public class RankService implements IRankService {
             infos.add(new LeaderboardInfo(val, start));
         }
         return infos;
+    }
+
+    @Override
+    public Set<ZSetOperations.TypedTuple<String>> getRankPlayers(RankType rankType, int start, int end){
+        return stringRedisTemplate.opsForZSet().reverseRangeWithScores(rankType.getRankType(), start-1, end-1);
+    }
+
+    @Override
+    public void renameRankType(RankType rankType){
+        stringRedisTemplate.renameIfAbsent(rankType.getRankType(), rankType+":"+ DateUtil.format(new Date(),"yyyyMMdd"));
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.henan.culture.service;
 import com.henan.culture.domain.entity.LeaderboardInfo;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.RankType;
+import org.springframework.data.redis.core.ZSetOperations;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IRankService {
 
@@ -20,5 +22,9 @@ public interface IRankService {
 
     public List<LeaderboardInfo> getGroupRanks(RankType rankType, int pageNo);
 
+    Set<ZSetOperations.TypedTuple<String>> getRankPlayers(RankType rankType, int start, int end);
+
     public Long getPlayerScore(Player player, RankType rankType);
+
+    void renameRankType(RankType rankType);
 }
