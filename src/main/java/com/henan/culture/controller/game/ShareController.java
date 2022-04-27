@@ -45,6 +45,7 @@ public class ShareController extends BaseController {
             player.getPlayerShare().addShare(shareType);
             player.saveDB();
         }
+        shareType.getRedisHashType().incrementKey(player.getId());
         return ResponseDTO.Suc(player.buildDTO());
     }
 }

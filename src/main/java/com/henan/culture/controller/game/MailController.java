@@ -1,19 +1,18 @@
 package com.henan.culture.controller.game;
 
-import cn.hutool.core.util.StrUtil;
 import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.controller.base.BaseController;
-import com.henan.culture.domain.dto.MailVO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.Items;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.domain.entity.player.Player;
-import com.henan.culture.service.IItemService;
-import com.henan.culture.service.IMailService;
+import com.henan.culture.enums.ItemType;
 import com.henan.culture.enums.LogType;
 import com.henan.culture.enums.MailSendType;
 import com.henan.culture.enums.MailState;
-import org.apache.commons.lang3.StringUtils;
+import com.henan.culture.service.IItemService;
+import com.henan.culture.service.IMailService;
+import com.henan.culture.utils.util.ItemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,7 +78,7 @@ public class MailController extends BaseController {
             return ResponseDTO.Fail();
         }
         //是否有附件
-        if(!mail.isHaveReward()){
+        if(!player.getPlayerMail().canGetReward(mail)){
             return ResponseDTO.Fail();
         }
         //是否已领
@@ -89,30 +88,14 @@ public class MailController extends BaseController {
         List<Items> items = mail.getRewardItems();
         player.getPlayerMail().getReward(id);
         itemService.addItem(player, items, LogType.Mail);
+        if (ItemUtils.isContains(items, ItemType.RealGoods)){
+            // TODO 包含实物奖励重新发一个通知奖励 ? 奖励内容
+            mailService.addMail("实物奖励","实物奖励领取方式：请联系XX,联系方式1xxx", MailSendType.One, player.getId().toString());
+        }
+        player.getPlayerMail().getReward(id);
         player.saveDB();
 
         return ResponseDTO.Suc(player.buildDTO());
     }
-
-//    @RequestMapping("/add")
-//    public ResponseDTO addMail(HttpServletRequest request){
-//        String title = request.getParameter("title");
-//        String content = request.getParameter("content");
-//        String sendType = request.getParameter("sendType");
-//        String reward = request.getParameter("reward");
-//        String receivers = request.getParameter("receivers");
-//        if (StringUtils.isAnyEmpty(title, content, sendType, reward)){
-//            return ResponseDTO.Fail("参数错误");
-//        }
-//        MailSendType mailType = MailSendType.getMailType(Integer.parseInt(sendType));
-//        if (mailType == null){
-//            return ResponseDTO.Fail("邮件类型错误");
-//        }
-//        if (mailType != MailSendType.All && StrUtil.isEmpty(receivers)){
-//            return ResponseDTO.Fail("没有收件人");
-//        }
-//        mailService.addMail(title, content, mailType, receivers, reward);
-//        return ResponseDTO.Suc();
-//    }
 
 }

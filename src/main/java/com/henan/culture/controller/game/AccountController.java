@@ -3,6 +3,7 @@ package com.henan.culture.controller.game;
 import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.service.impl.AccountService;
 import com.henan.culture.enums.ResponseStatus;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +34,7 @@ public class AccountController{
         try {
             Player player = accountService.userLogin(codeDTO);
             if (player != null){
+                RedisHashType.LoginTimes.incrementKey(player.getId());
                 return ResponseDTO.Suc(player);
             }
         } catch (Exception e) {

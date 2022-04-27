@@ -25,6 +25,7 @@ public class PlayerMail{
 	public List<Integer> getMailIdList() {
 		List<Integer> idList = sysMailMap.entrySet().stream()
 				.filter(e -> e.getValue() != MailState.Del.getType())
+				.filter(e -> e.getValue() != MailState.Get.getType())
 				.map(e -> e.getKey())
 				.sorted(Comparator.comparing(Integer::intValue).reversed())
 				.collect(Collectors.toList());
@@ -67,7 +68,7 @@ public class PlayerMail{
 	 * @return
 	 */
 	public boolean canGetReward(Mail mail) {
-		if(!mail.isHaveReward())
+		if(!isHaveMail(mail) || !mail.isHaveReward())
 			return false;
 		int state = sysMailMap.get(mail.getId());
 		if(state == MailState.NewReward.getType() || state == MailState.ReadNoGet.getType()) {

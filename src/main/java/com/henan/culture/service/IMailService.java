@@ -15,4 +15,6 @@ public interface IMailService {
     List<Mail> getPlayerMail(Player player);
 
     void addMail(String title, String content, MailSendType sendType, String receivers, String reward);
+
+    void addMail(String title, String content, MailSendType sendType, String receivers);
 }

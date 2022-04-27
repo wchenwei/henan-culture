@@ -5,6 +5,7 @@ import com.henan.culture.config.template.impl.DaTiTemplateImpl;
 import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.service.IItemService;
 import com.henan.culture.enums.LogType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,10 @@ public class QuestionController extends BaseController {
         }
         player.getPlayerQuestion().add(id);
         if (!template.isRight(options)){
+            RedisHashType.QuestionWrong.incrementKey(player.getId());
             return ResponseDTO.Suc();
         }
+        RedisHashType.QuestionRight.incrementKey(player.getId());
         itemService.addItem(player, template.getRewards(), LogType.Question);
         player.saveDB();
         return ResponseDTO.Suc(player.buildDTO());

@@ -25,11 +25,18 @@ public class MailJob {
     public void loadNewMail(){
         List<Mail> mailList = mailRepository.findByOldMailFalse();
         mailList.forEach(e ->{
-            e.setOldMail(true);
-            e.init();
-            mailRepository.save(e);
-            MailCacheManager.getInstance().addMail(e);
-            log.error("加载邮件："+ mailList);
+            try {
+                e.setOldMail(true);
+                e.init();
+                mailRepository.save(e);
+                MailCacheManager.getInstance().addMail(e);
+                log.error("加载邮件："+ mailList);
+            } catch (Exception ex) {
+                log.error("加载邮件失败并删除邮件："+e, ex);
+                mailRepository.delete(e);
+            }
         });
     }
+
+
 }

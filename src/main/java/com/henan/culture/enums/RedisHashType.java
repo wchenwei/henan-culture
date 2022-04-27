@@ -4,7 +4,9 @@ import cn.hutool.core.convert.Convert;
 import com.henan.culture.utils.gson.GSONUtils;
 import com.henan.culture.utils.springredis.RedisDBClient;
 import com.henan.culture.utils.springredis.RedisKeyUtils;
+import com.henan.culture.utils.util.SpringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,16 @@ import java.util.Set;
  * @Version 1.0.0
  * @date 2021/8/25 10:37
  */
-public enum GameRedisHashType {
-    Player2Server("player2server", "玩家id的游戏物理机"),
+public enum RedisHashType {
+    QuestionRight("QuestionRight","答题正确数量"),
+    QuestionWrong("QuestionWrong","答题错误数量"),
+    ShareNormal("ShareNormal","主页分享总数量"),
+    ShareTop("ShareTop","顶部分享总次数"),
+    ShareRelive("ShareRelive","重生分享总次数"),
+    LoginTimes("LoginTimes","登录总次数"),
     ;
 
-    private GameRedisHashType(String key, String desc) {
+    private RedisHashType(String key, String desc) {
         this.key = key;
         this.desc = desc;
     }
@@ -87,6 +94,10 @@ public enum GameRedisHashType {
         return buildRedisTemplate().opsForHash().increment(buildKey(), field.toString(), addVal);
     }
 
+    public long incrementKey(Object field) {
+        return buildRedisTemplate().opsForHash().increment(buildKey(), field.toString(), 1);
+    }
+
 
     public void dropColl() {
         buildRedisTemplate().delete(buildKey());
@@ -109,7 +120,7 @@ public enum GameRedisHashType {
     }
 
     public RedisTemplate buildRedisTemplate() {
-        return RedisDBClient.getInstance().getRedisTemplate();
+        return SpringUtil.getBean(StringRedisTemplate.class);
     }
 }
 

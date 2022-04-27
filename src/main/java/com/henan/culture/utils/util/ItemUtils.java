@@ -120,11 +120,8 @@ public class ItemUtils {
 	}
 
 	//list是否包含needItem
-	public static boolean isContains(List<Items> items, Items needItem) {
-		items.stream().anyMatch(item -> {
-			return item.getType() == needItem.getType() && item.getId() == needItem.getId();
-	    });
-		return false;
+	public static boolean isContains(List<Items> items, ItemType itemType) {
+    	return items.stream().anyMatch(item -> item.getType() == itemType.getType());
 	}
 	
 

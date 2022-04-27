@@ -5,6 +5,7 @@ import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.WxAccount;
 import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,7 @@ public class TestAction extends BaseController {
         WxAccount wxAccount = accountService.getWxAccount(wxOpenId, name);
         System.out.println("account:"+ JSONUtil.toJsonStr(wxAccount));
         Player player = accountService.accountLogin(wxAccount);
+        RedisHashType.LoginTimes.incrementKey(player.getId());
         return  ResponseDTO.Suc(player);
     }
 }
