@@ -1,13 +1,10 @@
 package com.henan.culture.controller.game;
 
-import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.service.impl.AccountService;
-import com.henan.culture.enums.ResponseStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,9 +27,14 @@ public class AccountController{
      * 返回给小程序端 自定义登陆态 token
      */
     @RequestMapping("/login")
-    public ResponseDTO wxAppletLoginApi(@RequestBody @Validated CodeDTO codeDTO) {
+    public ResponseDTO wxAppletLoginApi(HttpServletRequest request) {
         try {
-            Player player = accountService.userLogin(codeDTO);
+            String code = request.getParameter("code");
+            String name = request.getParameter("name");
+            if (StringUtils.isAnyEmpty(code, name)){
+                return ResponseDTO.Fail("参数错误");
+            }
+            Player player = accountService.userLogin(code, name);
             if (player != null){
                 RedisHashType.LoginTimes.incrementKey(player.getId());
                 return ResponseDTO.Suc(player);
@@ -41,13 +43,6 @@ public class AccountController{
             return ResponseDTO.Fail();
         }
         return ResponseDTO.Fail();
-    }
-
-
-    @RequestMapping("/test")
-    public ResponseDTO wxAppletLoginApi(HttpServletRequest request) {
-
-        return ResponseDTO.Suc();
     }
 
 

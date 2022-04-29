@@ -24,8 +24,8 @@ public class RankPrizeTemplateImpl extends RankPrizeTemplate {
     private List<Items> rewards = Lists.newArrayList();
 
     public void init(){
-        if (StrUtil.isNotEmpty(getPrize())){
-            rewards = ItemUtils.str2DefaultItemImmutableList(getPrize());
+        if (StrUtil.isNotEmpty(getPrize1())){
+            rewards = ItemUtils.str2DefaultItemImmutableList(getPrize1());
         }
         int[] ranks = StringUtil.splitStr2IntArray(getRanking(), ",");
         start = ranks[0];

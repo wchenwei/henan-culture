@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>henan.culture</groupId>
-    <artifactId>henan-culture</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>culture</artifactId>
     <packaging>war</packaging>
 
-    <name>henan-culture</name>
+    <name>culture</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>

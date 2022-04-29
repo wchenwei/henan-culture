@@ -10,7 +10,7 @@ import com.henan.culture.domain.entity.player.Player;
  * @create: 2022-04-20 10:01
  **/
 public interface IAccountService {
-    Player userLogin(CodeDTO dto);
+    Player userLogin(String code, String name);
 
     WxAccount getWxAccount(String openId, String name);
 

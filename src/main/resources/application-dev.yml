@@ -7,19 +7,20 @@ spring:
     name: henan-culture
   jpa:
     hibernate:
-      ddl-auto: update
-    open-in-view: false
+      ddl-auto: update      # 请自行修改 请自行修改 请自行修改
+    open-in-view: false     # 关闭 OSIV
+
   #  datasource本地配置
   datasource:
-    url: jdbc:mysql://192.168.1.217:3306/renren_security_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: 81830975
+    url: jdbc:mysql://127.0.0.1:3306/culture?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: culture
+    password: atwn3s422BA8GA36
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   #  redis本地配置 请自行配置
   redis:
     database: 10
-    host: 192.168.1.250
+    host: 127.0.0.1
     port: 6379
 
 #  微信小程序配置 appid /appsecret

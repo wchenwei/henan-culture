@@ -46,7 +46,7 @@ public class RankJob {
             }
             for (ZSetOperations.TypedTuple<String> rankPlayer : rankPlayers) {
                 String content = "恭喜您本周最高得分"+rankPlayer.getScore().longValue()+"分,获得排行第"+start+"名,获得如下奖励";
-                mailService.addMail("排行奖励", content, MailSendType.One,  template.getPrize(), rankPlayer.getValue());
+                mailService.addMail("排行奖励", content, MailSendType.One,  template.getPrize1(), rankPlayer.getValue());
                 start++;
             }
         }

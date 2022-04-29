@@ -13,5 +13,5 @@ import lombok.Data;
 public class RankPrizeTemplate {
     private Integer id;
     private String ranking;
-    private String prize;
+    private String prize1;
 }

@@ -47,15 +47,16 @@ public class AccountService implements IAccountService {
     private IPlayerService playerService;
 
     @Override
-    public Player userLogin(CodeDTO dto) {
+    public Player userLogin(String code, String name) {
         //1 . code2session返回JSON数据
-        String resultJson = code2Session(dto.getCode());
+        String resultJson = code2Session(code);
+        System.err.println(resultJson);
         //2 . 解析数据
         Code2SessionResponse response = JSONUtil.toJavaObject(resultJson, Code2SessionResponse.class);
         if (!response.getErrcode().equals("0")){
             return null;
         }
-        WxAccount wxAccount = getWxAccount(response.getOpenid(), dto.getName());
+        WxAccount wxAccount = getWxAccount(response.getOpenid(), name);
         if (wxAccount == null){
             return null;
         }
