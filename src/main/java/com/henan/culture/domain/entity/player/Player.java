@@ -19,13 +19,12 @@ public class Player extends BaseEntityMapper<Integer> {
     private String wxOpenId;
     private String dayMark;// 每日重置标志
     private String name;// 名称
-    private long registerTime;// 注册世界
+    private long registerTime;// 注册时间
     private PlayerBag playerBag = new PlayerBag(); // 背包
     private PlayerPoked playerPoked = new PlayerPoked(); // 图鉴
     private PlayerScore playerScore = new PlayerScore();//积分
     private PlayerMail playerMail = new PlayerMail();//邮件
     private PlayerShare playerShare = new PlayerShare();//分享
-    private PlayerQuestion playerQuestion = new PlayerQuestion();
     private PlayerChapter playerChapter = new PlayerChapter();
 
 

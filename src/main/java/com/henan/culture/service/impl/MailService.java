@@ -3,6 +3,7 @@ package com.henan.culture.service.impl;
 import com.henan.culture.cache.MailCacheManager;
 import com.henan.culture.domain.entity.mail.Mail;
 import com.henan.culture.domain.entity.player.Player;
+import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.repository.MailRepository;
 import com.henan.culture.service.IMailService;
 import com.henan.culture.enums.MailSendType;
@@ -32,7 +33,7 @@ public class MailService implements IMailService {
         List<Integer> idList = player.getPlayerMail().getMailIdList();
         List<Mail> mailList = idList.stream().map(e -> MailCacheManager.getInstance().getMail(e))
                 .filter(Objects::nonNull)
-                .filter(e -> e.isHaveReward() || now - e.getSendDateTime() < 7 * Constants.Day)
+                .filter(e -> now - e.getSendDateTime() < 7 * Constants.Day)
                 .sorted(Comparator.comparingLong(Mail::getSendDateTime).reversed())
                 .collect(Collectors.toList());
         return mailList;
@@ -40,14 +41,16 @@ public class MailService implements IMailService {
 
     @Override
     public void addMail(String title, String content, MailSendType sendType, String receivers, String reward) {
-        Mail mail = new Mail(title,content, reward, sendType, receivers);
+        Mail mail = new Mail(title,content, reward, sendType);
         mailRepository.save(mail);
+        if (MailSendType.All != sendType){
+            RedisHashType.MailReceivers.put(mail.getId(), receivers);
+        }
     }
 
     @Override
     public void addMail(String title, String content, MailSendType sendType, String receivers) {
-        Mail mail = new Mail(title,content, null, sendType, receivers);
-        mailRepository.save(mail);
+        addMail(title, content, sendType, receivers, null);
     }
 
 }

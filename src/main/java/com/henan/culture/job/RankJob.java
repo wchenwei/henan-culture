@@ -44,10 +44,14 @@ public class RankJob {
             if (CollUtil.isEmpty(rankPlayers)){
                 break;
             }
+            StringBuilder receivers = new StringBuilder();
             for (ZSetOperations.TypedTuple<String> rankPlayer : rankPlayers) {
-                String content = "恭喜您本周最高得分"+rankPlayer.getScore().longValue()+"分,获得排行第"+start+"名,获得如下奖励";
-                mailService.addMail("排行奖励", content, MailSendType.One,  template.getPrize1(), rankPlayer.getValue());
-                start++;
+                receivers.append(rankPlayer.getValue()).append(",");
+            }
+            if (receivers.length() > 0){
+                receivers.deleteCharAt(receivers.length() -1);
+                String content = "恭喜您本周最获得排行奖励";
+                mailService.addMail("排行奖励", content, MailSendType.One, receivers.toString(), template.getPrize1());
             }
         }
         rankService.renameRankType(RankType.Score);

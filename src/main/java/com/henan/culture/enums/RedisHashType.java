@@ -26,13 +26,13 @@ public enum RedisHashType {
     ShareTop("ShareTop","顶部分享总次数"),
     ShareRelive("ShareRelive","重生分享总次数"),
     LoginTimes("LoginTimes","登录总次数"),
+    MailReceivers("MailReceivers","邮件接收者"),
     ;
 
     private RedisHashType(String key, String desc) {
         this.key = key;
         this.desc = desc;
     }
-
 
     public void put(Object field, Object value) {
         buildRedisTemplate().opsForHash().put(buildKey(), field.toString(), GSONUtils.ToJSONString(value));

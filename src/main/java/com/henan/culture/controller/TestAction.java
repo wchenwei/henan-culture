@@ -26,16 +26,6 @@ public class TestAction extends BaseController {
     @Autowired
     private IAccountService accountService;
 
-    @RequestMapping("/addPlayer")
-    public ResponseDTO addPlayer(HttpServletRequest request) {
-        String wxOpenId = request.getParameter("wxOpenId");
-        String name = request.getParameter("name");
-        WxAccount wxAccount = accountService.getWxAccount(wxOpenId, name);
-        System.out.println("account:"+ JSONUtil.toJsonStr(wxAccount));
-        Player player = accountService.accountLogin(wxAccount);
-        return ResponseDTO.Suc(player);
-    }
-
     @RequestMapping("/login")
     public ResponseDTO login(HttpServletRequest request) {
         String name = request.getParameter("name");

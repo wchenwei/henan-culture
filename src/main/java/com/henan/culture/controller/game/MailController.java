@@ -86,13 +86,13 @@ public class MailController extends BaseController {
             return ResponseDTO.Fail();
         }
         List<Items> items = mail.getRewardItems();
-        player.getPlayerMail().getReward(id);
+        player.getPlayerMail().getReward(mail);
         itemService.addItem(player, items, LogType.Mail);
         if (ItemUtils.isContains(items, ItemType.RealGoods)){
             // TODO 包含实物奖励重新发一个通知奖励 ? 奖励内容
             mailService.addMail("实物奖励","实物奖励领取方式：请联系XX,联系方式1xxx", MailSendType.One, player.getId().toString());
         }
-        player.getPlayerMail().getReward(id);
+        player.getPlayerMail().getReward(mail);
         player.saveDB();
 
         return ResponseDTO.Suc(player.buildDTO());

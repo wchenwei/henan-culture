@@ -2,7 +2,9 @@ package com.henan.culture.domain.entity.mail;
 
 import cn.hutool.core.util.StrUtil;
 import com.henan.culture.domain.entity.Items;
+import com.henan.culture.enums.ItemType;
 import com.henan.culture.enums.MailSendType;
+import com.henan.culture.enums.RedisHashType;
 import com.henan.culture.utils.util.ItemUtils;
 import com.henan.culture.utils.util.StringUtil;
 import lombok.Data;
@@ -11,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,27 +31,32 @@ public class Mail {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@LastModifiedDate
 	private Date sendDate; //发送日期
-	private String receiver; //收件人
 	private String reward; // 奖励
 	@Transient
 	private List<Items> rewardItems;
 	@Transient
-	private List<Integer> receives;
+	private List<Integer> receives = new ArrayList<>();
 	private boolean oldMail; //未加载过的邮件
 
 	
-	public Mail(String title, String content, String reward, MailSendType sendType, String receiver){
+	public Mail(String title, String content, String reward, MailSendType sendType){
 		this.title = title;
 		this.content = content;
 		this.sendDate = new Date(); 
 		this.reward = reward;
 		this.sendType = sendType.getType();
-		this.receiver = receiver;
 	}
 
 
 	public boolean isHaveReward(){
 		return reward != null && !this.reward.isEmpty(); 
+	}
+
+	public boolean isHaveRealReward(){
+		if (isHaveReward()){
+			return ItemUtils.isContains(rewardItems, ItemType.RealGoods);
+		}
+		return false;
 	}
 
 
@@ -61,8 +69,11 @@ public class Mail {
 	}
 
 	public void init(){
-		if (StrUtil.isNotEmpty(getReceiver())){
-			this.receives = StringUtil.splitStr2IntegerList(getReceiver(),",");
+		if (MailSendType.All.getType() != sendType){
+			String receivers = RedisHashType.MailReceivers.get(getId());
+			if (StrUtil.isNotEmpty(receivers)){
+				this.receives = StringUtil.splitStr2IntegerList(receivers,",");
+			}
 		}
 		if (StrUtil.isNotEmpty(getReward())){
 			this.rewardItems = ItemUtils.str2DefaultItemImmutableList(getReward());

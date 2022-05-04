@@ -40,7 +40,6 @@ public class GameController extends BaseController {
             return ResponseDTO.Fail("玩家不存在");
         }
         playerService.checkDayReset(player);
-        player.getPlayerQuestion().clear();
         player.saveDB();
         return ResponseDTO.Suc(player);
     }

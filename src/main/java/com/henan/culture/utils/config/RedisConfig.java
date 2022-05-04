@@ -11,12 +11,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
  * RedisConfig的配置类
  */
 @Configuration
-@EnableCaching
+//@EnableCaching
 public class RedisConfig {
 
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-        return RedisCacheManager.create(factory);
-    }
+//    @Bean
+//    public CacheManager cacheManager(RedisConnectionFactory factory) {
+//        return RedisCacheManager.create(factory);
+//    }
 }
 

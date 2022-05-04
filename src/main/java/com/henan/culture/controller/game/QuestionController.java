@@ -40,10 +40,6 @@ public class QuestionController extends BaseController {
         if (template == null){
             return ResponseDTO.Fail("参数错误");
         }
-        if (player.getPlayerQuestion().isAnswer(id)){
-            return ResponseDTO.Fail("已答过该题");
-        }
-        player.getPlayerQuestion().add(id);
         if (!template.isRight(options)){
             RedisHashType.QuestionWrong.incrementKey(player.getId());
             return ResponseDTO.Suc();

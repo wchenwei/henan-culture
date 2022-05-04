@@ -214,11 +214,23 @@ public class ItemUtils {
 	 * @param itemId
 	 * @return
 	 */
-	public static List<Items> getItemList(List<Items> itemList,ItemType itemType,int itemId){
-		return itemList.stream().filter(t -> (t.getType() == itemType.getType() && t.getId() == itemId)).collect(Collectors.toList());
+	public static List<Items> getItemList(List<Items> itemList,ItemType itemType){
+		return itemList.stream().filter(t -> (t.getType() == itemType.getType())).collect(Collectors.toList());
 	}
 
-    /**
+	/**
+	 * 在itemList中获取对应itemType,id的item
+	 * @param itemList
+	 * @param itemType
+	 * @param itemId
+	 * @return
+	 */
+	public static String getItemStr(List<Items> itemList,ItemType itemType){
+		return itemListToString(itemList.stream().filter(t -> (t.getType() == itemType.getType())).collect(Collectors.toList()));
+	}
+
+
+	/**
 	 * @Title: getItemNum 
 	 * @Description: 获取items中的某个道具的数量
 	 * @param listItems

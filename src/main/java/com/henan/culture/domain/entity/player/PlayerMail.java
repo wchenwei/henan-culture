@@ -25,7 +25,6 @@ public class PlayerMail{
 	public List<Integer> getMailIdList() {
 		List<Integer> idList = sysMailMap.entrySet().stream()
 				.filter(e -> e.getValue() != MailState.Del.getType())
-				.filter(e -> e.getValue() != MailState.Get.getType())
 				.map(e -> e.getKey())
 				.sorted(Comparator.comparing(Integer::intValue).reversed())
 				.collect(Collectors.toList());
@@ -57,8 +56,12 @@ public class PlayerMail{
 	/**
 	 * 领取附件
 	 */
-	public void getReward(Integer id) {
-		sysMailMap.put(id, MailState.Get.getType());
+	public void getReward(Mail mail) {
+		if (mail.isHaveRealReward()){
+			sysMailMap.put(mail.getId(), MailState.Get.getType());
+		}else {
+			sysMailMap.put(mail.getId(), MailState.Del.getType());
+		}
 	}
 
 	/**
