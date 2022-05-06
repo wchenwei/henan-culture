@@ -31,10 +31,11 @@ public class AccountController{
         try {
             String code = request.getParameter("code");
             String name = request.getParameter("name");
-            if (StringUtils.isAnyEmpty(code, name)){
+            String headIcon = request.getParameter("headIcon");
+            if (StringUtils.isAnyEmpty(code, name, headIcon)){
                 return ResponseDTO.Fail("参数错误");
             }
-            Player player = accountService.userLogin(code, name);
+            Player player = accountService.userLogin(code, name, headIcon);
             if (player != null){
                 RedisHashType.LoginTimes.incrementKey(player.getId());
                 return ResponseDTO.Suc(player);

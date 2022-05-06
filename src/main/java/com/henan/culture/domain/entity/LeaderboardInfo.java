@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 public class LeaderboardInfo {
     private int id;//玩家id
     private String name;// 玩家名称
+    private String headIcon;
     private int rank;//排名
     private long score;//分数
 
@@ -25,6 +26,7 @@ public class LeaderboardInfo {
                 this.score = data.getScore().longValue();
                 this.rank = rank;
                 this.name = player.getName();
+                this.headIcon = player.getHeadIcon();
             }
         } catch (Exception e) {
             e.printStackTrace();

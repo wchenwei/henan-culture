@@ -50,7 +50,7 @@ public class ShiroTest {
     public void add(){
         WxAccount wxAccount = accountService.getWxAccount("chenw", "chenw");
         System.out.println("account:"+JSONUtil.toJsonStr(wxAccount));
-        Player player = accountService.accountLogin(wxAccount);
+        Player player = accountService.accountLogin(wxAccount, "");
         System.out.println(player.buildDTO());
     }
 

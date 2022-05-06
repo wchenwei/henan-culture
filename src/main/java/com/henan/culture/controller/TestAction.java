@@ -30,9 +30,10 @@ public class TestAction extends BaseController {
     public ResponseDTO login(HttpServletRequest request) {
         String name = request.getParameter("name");
         String wxOpenId = request.getParameter("wxOpenId");
+        String headIcon = request.getParameter("headIcon");
         WxAccount wxAccount = accountService.getWxAccount(wxOpenId, name);
         System.out.println("account:"+ JSONUtil.toJsonStr(wxAccount));
-        Player player = accountService.accountLogin(wxAccount);
+        Player player = accountService.accountLogin(wxAccount, headIcon);
         RedisHashType.LoginTimes.incrementKey(player.getId());
         return  ResponseDTO.Suc(player);
     }

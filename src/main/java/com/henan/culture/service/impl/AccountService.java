@@ -1,7 +1,6 @@
 package com.henan.culture.service.impl;
 
 import com.henan.culture.cache.MailCacheManager;
-import com.henan.culture.domain.dto.CodeDTO;
 import com.henan.culture.domain.entity.WxAccount;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.repository.WxAccountRepository;
@@ -47,7 +46,7 @@ public class AccountService implements IAccountService {
     private IPlayerService playerService;
 
     @Override
-    public Player userLogin(String code, String name) {
+    public Player userLogin(String code, String name, String headIcon) {
         //1 . code2session返回JSON数据
         String resultJson = code2Session(code);
         System.err.println(resultJson);
@@ -61,17 +60,18 @@ public class AccountService implements IAccountService {
             return null;
         }
         // 加载account和player
-        return accountLogin(wxAccount);
+        return accountLogin(wxAccount, headIcon);
     }
 
     @Override
-    public Player accountLogin(WxAccount wxAccount) {
+    public Player accountLogin(WxAccount wxAccount, String headIcon) {
         Player player = playerService.loadPlayer(wxAccount);
         if (player == null){
             return null;
         }
         // 每次登录重新赋值
         player.setName(wxAccount.getName());
+        player.setHeadIcon(headIcon);
         // 加载邮件
         MailCacheManager.getInstance().loadPlayerSysMail(player);
         // 每日重置
