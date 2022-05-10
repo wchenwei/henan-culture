@@ -8,6 +8,7 @@ import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.LogType;
 import com.henan.culture.enums.RedisHashType;
+import com.henan.culture.enums.StatisticsType;
 import com.henan.culture.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,11 @@ public class PinTuController extends BaseController {
             return ResponseDTO.Fail("参数错误");
         }
         if (result <= 0){
-            RedisHashType.PinTuFail.incrementKey(player.getId());
+            player.getPlayerStatistics().addLifeStatistics(StatisticsType.PinTuFail);
+            player.saveDB();
             return ResponseDTO.Suc();
         }
-        RedisHashType.PinTuSuc.incrementKey(player.getId());
+        player.getPlayerStatistics().addLifeStatistics(StatisticsType.PinTuSuc);
         itemService.addItem(player, template.getRewards(), LogType.Question);
         player.saveDB();
         return ResponseDTO.Suc(player.buildDTO());

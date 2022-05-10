@@ -43,9 +43,9 @@ public class ShareController extends BaseController {
                 itemService.addItem(player, ItemType.Relive, Constants.Relive_Item_Id, 1, LogType.Share.value(shareType.getDesc()));
             }
             player.getPlayerShare().addShare(shareType);
-            player.saveDB();
         }
-        shareType.getRedisHashType().incrementKey(player.getId());
+        player.getPlayerStatistics().addLifeStatistics(shareType.getStatisticsType());
+        player.saveDB();
         return ResponseDTO.Suc(player.buildDTO());
     }
 }

@@ -3,6 +3,7 @@ package com.henan.culture.controller.game;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.player.Player;
 import com.henan.culture.enums.RedisHashType;
+import com.henan.culture.enums.StatisticsType;
 import com.henan.culture.service.impl.AccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,8 @@ public class AccountController{
             }
             Player player = accountService.userLogin(code, name, headIcon);
             if (player != null){
-                RedisHashType.LoginTimes.incrementKey(player.getId());
+                player.getPlayerStatistics().addLifeStatistics(StatisticsType.LoginTimes);
+                player.saveDB();
                 return ResponseDTO.Suc(player);
             }
         } catch (Exception e) {

@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-//@Component
+@Component
 public class JwtConfig {
 
     /**

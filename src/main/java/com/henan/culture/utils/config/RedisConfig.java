@@ -10,7 +10,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 /**
  * RedisConfig的配置类
  */
-//@Configuration
+@Configuration
 //@EnableCaching
 public class RedisConfig {
 

@@ -23,6 +23,7 @@ public class PlayerData {
     private int topShare;//顶部分享
     private int reliveShare;//重生分享
     private Map<Integer,Long> items;//道具
+    private Map<Integer, Long> statisticMap;//统计
 
     public PlayerData(Player player) {
         this.id = player.getId();
@@ -32,6 +33,7 @@ public class PlayerData {
         this.topShare = player.getPlayerShare().getShareCount(ShareType.Top);
         this.reliveShare = player.getPlayerShare().getShareCount(ShareType.Relive);
         this.items = player.getPlayerBag().getItemMap();
+        this.statisticMap = player.getPlayerStatistics().getLifeStatistics();
     }
 
     public static PlayerData buildData(Player player){

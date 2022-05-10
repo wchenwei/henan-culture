@@ -20,15 +20,15 @@ import java.util.Set;
  * @date 2021/8/25 10:37
  */
 public enum RedisHashType {
-    QuestionRight("QuestionRight","答题正确数量"),
-    QuestionWrong("QuestionWrong","答题错误数量"),
-    ShareNormal("ShareNormal","主页分享总数量"),
-    ShareTop("ShareTop","顶部分享总次数"),
-    ShareRelive("ShareRelive","重生分享总次数"),
-    LoginTimes("LoginTimes","登录总次数"),
+//    QuestionRight("QuestionRight","答题正确数量"),
+//    QuestionWrong("QuestionWrong","答题错误数量"),
+//    ShareNormal("ShareNormal","主页分享总数量"),
+//    ShareTop("ShareTop","顶部分享总次数"),
+//    ShareRelive("ShareRelive","重生分享总次数"),
+//    LoginTimes("LoginTimes","登录总次数"),
+//    PinTuSuc("PinTuSuc","拼图成功"),
+//    PinTuFail("PinTuFail","拼图失败"),
     MailReceivers("MailReceivers","邮件接收者"),
-    PinTuSuc("PinTuSuc","拼图成功"),
-    PinTuFail("PinTuFail","拼图失败"),
     ;
 
     private RedisHashType(String key, String desc) {

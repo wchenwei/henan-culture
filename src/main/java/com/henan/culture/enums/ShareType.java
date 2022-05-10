@@ -33,14 +33,14 @@ public enum ShareType {
         return Arrays.stream(ShareType.values()).filter(e -> e.getType() == type).findFirst().orElse(null);
     }
 
-    public RedisHashType getRedisHashType(){
+    public StatisticsType getStatisticsType(){
         switch (this){
             case Normal:
-                return RedisHashType.ShareNormal;
+                return StatisticsType.ShareNormal;
             case Relive:
-                return RedisHashType.ShareRelive;
+                return StatisticsType.ShareRelive;
             case Top:
-                return RedisHashType.ShareTop;
+                return StatisticsType.ShareTop;
         }
         return null;
     }
