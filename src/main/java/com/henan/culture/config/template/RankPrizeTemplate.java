@@ -14,4 +14,6 @@ public class RankPrizeTemplate {
     private Integer id;
     private String ranking;
     private String prize1;
+    private String title;
+    private String des;
 }

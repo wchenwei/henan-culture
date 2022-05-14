@@ -16,15 +16,15 @@ import java.util.Map;
 @Data
 @Accessors(chain = true)
 public class PlayerDTO extends BasePlayerDTO {
-    private long maxScore;// 最高分
-    private int maxChapter;//最大章节
+    private Map<Integer, Integer> scoreMap;// 最高分
+    private PlayerChapter chapter;//最大章节
     private Map<Integer, Long> itemMap; // 道具
     private Map<Integer, Integer> shareCntMap;// 分享次数
 
     public PlayerDTO(Player player) {
         super(player);
-        this.maxScore = player.getPlayerScore().getMaxScore();
-        this.maxChapter = player.getPlayerChapter().getId();
+        this.scoreMap = player.getPlayerScore().getScoreMap();
+        this.chapter = player.getPlayerChapter();
         this.itemMap = player.getPlayerBag().getItemMap();
         this.shareCntMap = player.getPlayerShare().getShareCntMap();
     }

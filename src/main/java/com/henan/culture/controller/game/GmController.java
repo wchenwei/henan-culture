@@ -51,7 +51,7 @@ public class GmController extends BaseController {
         Player player = PlayerCacheManager.getInstance().getPlayer(playerData.getId());
         if (player != null){
             // 积分
-            player.getPlayerScore().setMaxScore(playerData.getMaxScore());
+//            player.getPlayerScore().setMaxScore(playerData.getMaxScore());
             rankService.updatePlayerRank(player, RankType.Score, playerData.getMaxScore());
             // 道具
             Map<Integer, Long> items = playerData.getItems();

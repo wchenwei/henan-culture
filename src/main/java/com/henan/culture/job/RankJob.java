@@ -49,8 +49,7 @@ public class RankJob {
             }
             if (receivers.length() > 0){
                 receivers.deleteCharAt(receivers.length() -1);
-                String content = "恭喜您本周最获得排行奖励";
-                mailService.addMail("排行奖励", content, MailSendType.Group, receivers.toString(), template.getPrize1());
+                mailService.addMail(template.getTitle(), template.getDes(), MailSendType.Group, receivers.toString(), template.getPrize1());
                 log.error(template.getStart()+"->"+template.getEnd()+"名"+receivers.toString());
             }
         }

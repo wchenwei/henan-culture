@@ -10,10 +10,14 @@ import lombok.Data;
 @Data
 public class PlayerChapter {
     private Integer id = 1;
+    private Integer maxId = 1;
 
     public boolean checkAndResetChapter(int chapter){
-        if (chapter > id){
+        if (chapter != id){
             this.id = chapter;
+            if (chapter > maxId){
+                this.maxId = chapter;
+            }
             return true;
         }
         return false;

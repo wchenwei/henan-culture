@@ -25,13 +25,14 @@ public class ScoreController extends BaseController {
 
     @RequestMapping("/update")
     public ResponseDTO update(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
         int score = Integer.parseInt(request.getParameter("score"));
         Player player = getLoginPlayer(request);
         if (player == null){
             return ResponseDTO.Fail("玩家不存在");
         }
-        if (player.getPlayerScore().checkAndReset(score)){
-            rankService.updatePlayerRank(player, RankType.Score, score);
+        if (player.getPlayerScore().checkAndReset(id, score)){
+            rankService.updatePlayerRank(player, RankType.Score, player.getPlayerScore().getMaxScore());
             player.saveDB();
         }
         return ResponseDTO.Suc(player.buildDTO());

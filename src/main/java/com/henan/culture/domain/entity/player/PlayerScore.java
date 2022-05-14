@@ -1,8 +1,9 @@
 package com.henan.culture.domain.entity.player;
 
+import com.google.common.collect.Maps;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.util.Map;
 
 /**
  * @description: 玩家积分
@@ -11,15 +12,24 @@ import lombok.Setter;
  **/
 @Data
 public class PlayerScore {
-    private long maxScore;//最高分
+    private Map<Integer,Integer> scoreMap = Maps.newHashMap();
 
 
-    public boolean checkAndReset(int score){
-        if (score > maxScore){
-            this.maxScore = score;
+    public boolean checkAndReset(int id, int score){
+        Integer cScore = scoreMap.getOrDefault(id, 0);
+        if(score > cScore){
+            scoreMap.put(id, score);
             return true;
         }
         return false;
+    }
+
+    public long getMaxScore() {
+        return  scoreMap.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    public void clear(){
+        this.scoreMap.clear();
     }
 
 

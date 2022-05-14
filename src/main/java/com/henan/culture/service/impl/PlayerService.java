@@ -56,10 +56,7 @@ public class PlayerService implements IPlayerService {
     private void doDayReset(Player player) {
         player.getPlayerShare().clear();
         // 重置分数
-        long score = rankService.getPlayerScore(player, RankType.Score);
-        if (score <= 0){
-            player.getPlayerScore().setMaxScore(0);
-        }
+        player.getPlayerScore().clear();
     }
 
 }
