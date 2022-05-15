@@ -30,7 +30,7 @@ public class MailJob {
                 e.init();
                 mailRepository.save(e);
                 MailCacheManager.getInstance().addMail(e);
-                log.error("加载邮件："+ mailList);
+                log.error("加载邮件："+ e);
             } catch (Exception ex) {
                 log.error("加载邮件失败并删除邮件："+e, ex);
                 mailRepository.delete(e);

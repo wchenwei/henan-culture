@@ -44,6 +44,11 @@ public class GameController extends BaseController {
         return ResponseDTO.Suc(player);
     }
 
+    /**
+     * 更新最大章节
+     * @param request
+     * @return
+     */
     @RequestMapping("/chapter")
     public ResponseDTO chapter(HttpServletRequest request) {
         Player player = getLoginPlayer(request);
@@ -57,6 +62,11 @@ public class GameController extends BaseController {
         return ResponseDTO.Suc();
     }
 
+    /**
+     * 消耗道具
+     * @param request
+     * @return
+     */
     @RequestMapping("/costItem")
     public ResponseDTO costItem(HttpServletRequest request) {
         int itemId = Integer.parseInt(request.getParameter("itemId"));

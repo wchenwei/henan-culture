@@ -27,4 +27,6 @@ public interface IRankService {
     public Long getPlayerScore(Player player, RankType rankType);
 
     void renameRankType(RankType rankType);
+
+    boolean isHaveRank(RankType rankType);
 }

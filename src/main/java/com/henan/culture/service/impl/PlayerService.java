@@ -33,8 +33,8 @@ public class PlayerService implements IPlayerService {
             player.setId(wxAccount.getId());
             player.setWxOpenId(wxAccount.getWxOpenid());
             player.setRegisterTime(wxAccount.getLastTime().getTime());
-            PlayerCacheManager.getInstance().addPlayerToCache(player);
         }
+        PlayerCacheManager.getInstance().addPlayerToCache(player);
         return player;
     }
 

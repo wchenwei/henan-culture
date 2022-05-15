@@ -77,7 +77,12 @@ public class RankService implements IRankService {
 
     @Override
     public void renameRankType(RankType rankType){
-        stringRedisTemplate.renameIfAbsent(rankType.getRankType(), rankType+":"+ DateUtil.format(new Date(),"yyyyMMdd"));
+        stringRedisTemplate.renameIfAbsent(rankType.getRankType(), rankType.getRankType()+":"+ DateUtil.format(new Date(),"yyyyMMdd"));
+    }
+
+    @Override
+    public boolean isHaveRank(RankType rankType) {
+        return stringRedisTemplate.hasKey(rankType.getRankType());
     }
 
     @Override

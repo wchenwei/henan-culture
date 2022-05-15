@@ -27,6 +27,8 @@ public enum RedisHashType {
     ShareRelive("ShareRelive","重生分享总次数"),
     LoginTimes("LoginTimes","登录总次数"),
     MailReceivers("MailReceivers","邮件接收者"),
+    PinTuSuc("PinTuSuc","拼图成功"),
+    PinTuFail("PinTuFail","拼图失败"),
     ;
 
     private RedisHashType(String key, String desc) {
@@ -35,7 +37,11 @@ public enum RedisHashType {
     }
 
     public void put(Object field, Object value) {
-        buildRedisTemplate().opsForHash().put(buildKey(), field.toString(), GSONUtils.ToJSONString(value));
+        put(field, GSONUtils.ToJSONString(value));
+    }
+
+    public void put(Object field, String value) {
+        buildRedisTemplate().opsForHash().put(buildKey(), field.toString(), value);
     }
 
     public String get(Object field) {

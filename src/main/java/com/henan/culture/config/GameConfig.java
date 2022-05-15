@@ -4,6 +4,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.*;
 import com.henan.culture.config.template.TuJianTemplate;
 import com.henan.culture.config.template.impl.DaTiTemplateImpl;
+import com.henan.culture.config.template.impl.PinTuTemplateImpl;
 import com.henan.culture.config.template.impl.RankPrizeTemplateImpl;
 import com.henan.culture.utils.config.excel.ExcleConfig;
 import com.henan.culture.utils.util.JSONUtil;
@@ -27,6 +28,7 @@ public class GameConfig extends ExcleConfig {
     private Map<Integer, DaTiTemplateImpl> daTiMap = Maps.newHashMap();
     private Map<Integer, TuJianTemplate> tuJianMap = Maps.newHashMap();
     private Map<Integer, RankPrizeTemplateImpl> rankPrizeMap = Maps.newHashMap();
+    private Map<Integer, PinTuTemplateImpl> pinTuMap = Maps.newHashMap();
     private List<RankPrizeTemplateImpl> rankList = Lists.newArrayList();
     private ListMultimap<Integer, Integer> tuJianListMap = ArrayListMultimap.create();
     @Getter
@@ -37,6 +39,15 @@ public class GameConfig extends ExcleConfig {
         loadDaTi();
         loadTuJian();
         loadRank();
+        loadPinTu();
+    }
+
+    private void loadPinTu() {
+        List<PinTuTemplateImpl> templates = JSONUtil.fromJson(getJson(PinTuTemplateImpl.class), new TypeReference<List<PinTuTemplateImpl>>() {});
+        templates.forEach(e -> e.init());
+        Map<Integer, PinTuTemplateImpl> tempMap = templates.stream().collect(Collectors.toMap(PinTuTemplateImpl::getId, Function.identity()));
+        pinTuMap = ImmutableMap.copyOf(tempMap);
+        log.error("拼图加载完成");
     }
 
     private void loadDaTi() {
@@ -73,6 +84,10 @@ public class GameConfig extends ExcleConfig {
 
     public TuJianTemplate getTuJianTemplate(int id){
         return tuJianMap.get(id);
+    }
+
+    public PinTuTemplateImpl getPinTuTemplate(int id){
+        return pinTuMap.get(id);
     }
 
     public RankPrizeTemplateImpl getRankPrizeTemplate(int rank){
