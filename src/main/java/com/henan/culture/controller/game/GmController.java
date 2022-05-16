@@ -52,7 +52,7 @@ public class GmController extends BaseController {
         if (player != null){
             // 积分
 //            player.getPlayerScore().setMaxScore(playerData.getMaxScore());
-            rankService.updatePlayerRank(player, RankType.Score, playerData.getMaxScore());
+//            rankService.updatePlayerRank(player, RankType.Score, playerData.getMaxScore());
             // 道具
             Map<Integer, Long> items = playerData.getItems();
             if (CollUtil.isNotEmpty(items)){
