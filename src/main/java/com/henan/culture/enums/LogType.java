@@ -13,6 +13,7 @@ public class LogType {
     public static final LogType Question = new LogType("答题", 3);
     public static final LogType ItemCost = new LogType("道具使用", 4);
     public static final LogType ZhuanPan = new LogType("转盘", 5);
+    public static final LogType LittleGame = new LogType("小游戏", 5);
 
     ;
 
