@@ -2,12 +2,15 @@ package com.henan.culture.config;
 
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.*;
+import com.henan.culture.config.template.LittleGameTemplate;
 import com.henan.culture.config.template.TuJianTemplate;
-import com.henan.culture.config.template.impl.DaTiTemplateImpl;
-import com.henan.culture.config.template.impl.PinTuTemplateImpl;
-import com.henan.culture.config.template.impl.RankPrizeTemplateImpl;
+import com.henan.culture.config.template.ZhuanPanTemplate;
+import com.henan.culture.config.template.impl.*;
+import com.henan.culture.domain.entity.Items;
 import com.henan.culture.utils.config.excel.ExcleConfig;
 import com.henan.culture.utils.util.JSONUtil;
+import com.henan.culture.utils.weight.RandomUtils;
+import com.henan.culture.utils.weight.WeightMeta;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,10 @@ public class GameConfig extends ExcleConfig {
     private Map<Integer, PinTuTemplateImpl> pinTuMap = Maps.newHashMap();
     private List<RankPrizeTemplateImpl> rankList = Lists.newArrayList();
     private ListMultimap<Integer, Integer> tuJianListMap = ArrayListMultimap.create();
+    private WeightMeta<Integer> weightMeta;
+    private Map<Integer, LittleGameTemplateImpl> littleGameTemplateMap = Maps.newHashMap();
+    private Map<Integer, ZhuanPanTemplateImpl> zhuanPanMap = Maps.newHashMap();
+
     @Getter
     private int endRank;
 
@@ -40,6 +47,29 @@ public class GameConfig extends ExcleConfig {
         loadTuJian();
         loadRank();
         loadPinTu();
+        loadZhuanPan();
+        loadLittleGame();
+    }
+
+    private void loadLittleGame() {
+        List<LittleGameTemplateImpl> list = JSONUtil.fromJson(getJson(LittleGameTemplateImpl.class), new TypeReference<List<LittleGameTemplateImpl>>() {
+        });
+        list.forEach(e -> {
+            e.init();
+        });
+        this.littleGameTemplateMap = list.stream().collect(Collectors.toMap(LittleGameTemplate::getId, Function.identity()));
+    }
+
+    private void loadZhuanPan() {
+        List<ZhuanPanTemplateImpl> list = JSONUtil.fromJson(getJson(ZhuanPanTemplateImpl.class), new TypeReference<List<ZhuanPanTemplateImpl>>() {
+        });
+        Map<Integer,Integer> reward = Maps.newHashMap();
+        list.forEach(e -> {
+            e.init();
+            reward.put(e.getId(), e.getWeight());
+        });
+        weightMeta = RandomUtils.buildWeightMeta(reward);
+        this.zhuanPanMap = list.stream().collect(Collectors.toMap(ZhuanPanTemplate::getId, Function.identity()));
     }
 
     private void loadPinTu() {
@@ -76,6 +106,18 @@ public class GameConfig extends ExcleConfig {
         rankPrizeMap = ImmutableMap.copyOf(tempMap);
         rankList = ImmutableList.copyOf(templates);
         log.error("排行奖励加载完成");
+    }
+
+    public Integer randomZPReward(){
+        return this.weightMeta.random();
+    }
+
+    public LittleGameTemplateImpl getLittleGameTemplate(int id){
+        return littleGameTemplateMap.get(id);
+    }
+
+    public ZhuanPanTemplateImpl getZhuanPanTemplate(int id){
+        return zhuanPanMap.get(id);
     }
 
     public DaTiTemplateImpl getDaTiTemplate(int id){

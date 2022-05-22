@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.henan.culture.domain.entity.Items;
 import com.henan.culture.enums.ItemType;
+import com.henan.culture.utils.weight.WeightItem;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -54,6 +55,21 @@ public class ItemUtils {
 		return new Items(id,count,type);
 	}
 
+	public static WeightItem str2WeightItem(String source, String sp1) {
+		if (StringUtils.isBlank(source) || source.split(sp1).length != 4) {
+			return null;
+		}
+		int type = Integer.parseInt(source.split(sp1)[0]);
+		int id = Integer.parseInt(source.split(sp1)[1]);
+		int count = Integer.parseInt(source.split(sp1)[2]);
+		int weight = Integer.parseInt(source.split(sp1)[3]);
+
+		Items items = new Items(id, count, type);
+		WeightItem weightItem = new WeightItem();
+		weightItem.setItems(items);
+		weightItem.setWeight(weight);
+		return weightItem;
+	}
 	
 	public static List<Items> createCloneItems(List<Items> itemList) {
 		List<Items> cloneList = Lists.newArrayList();

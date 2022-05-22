@@ -1,5 +1,8 @@
 package com.henan.culture.controller.game;
 
+import com.henan.culture.config.GameConfig;
+import com.henan.culture.config.template.impl.LittleGameTemplateImpl;
+import com.henan.culture.config.template.impl.ZhuanPanTemplateImpl;
 import com.henan.culture.controller.base.BaseController;
 import com.henan.culture.domain.dto.ResponseDTO;
 import com.henan.culture.domain.entity.Items;
@@ -26,6 +29,8 @@ public class GameController extends BaseController {
     private IPlayerService playerService;
     @Autowired
     private IItemService iItemService;
+    @Autowired
+    private GameConfig gameConfig;
 
     /**
      * 开始新一局
@@ -86,4 +91,39 @@ public class GameController extends BaseController {
         player.saveDB();
         return ResponseDTO.Suc(player.buildDTO());
     }
+
+    @RequestMapping("/zhuanpan")
+    public ResponseDTO zhuanpan(HttpServletRequest request) {
+
+        Player player = getLoginPlayer(request);
+        if (player == null) {
+            return ResponseDTO.Fail("玩家不存在");
+        }
+        int id = gameConfig.randomZPReward();
+        ZhuanPanTemplateImpl template = gameConfig.getZhuanPanTemplate(id);
+        iItemService.addItem(player, template.getItems(), LogType.ZhuanPan);
+        player.saveDB();
+        return ResponseDTO.Suc(player.buildDTO())
+                .addProperty("id", id)
+                .addProperty("rewards", template.getItems());
+    }
+
+    @RequestMapping("/littleGame")
+    public ResponseDTO little(HttpServletRequest request) {
+
+        Player player = getLoginPlayer(request);
+        if (player == null) {
+            return ResponseDTO.Fail("玩家不存在");
+        }
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        LittleGameTemplateImpl template = gameConfig.getLittleGameTemplate(id);
+        Items items = template.random();
+        iItemService.addItem(player, items, LogType.ZhuanPan);
+        player.saveDB();
+        return ResponseDTO.Suc(player.buildDTO())
+                .addProperty("rewards", items);
+    }
+
+
 }
